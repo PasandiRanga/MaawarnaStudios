@@ -1,0 +1,199 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "Maawarna Studios",
+      "tone": "Cinematic, Premium, Bold, Minimal, Artistic",
+      "archetype": "The Visionary Producer",
+      "theme_mode": "dark"
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Syne, sans-serif",
+        "body": "Manrope, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "scale": {
+        "hero_title": "text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9]",
+        "section_title": "text-4xl md:text-6xl font-bold tracking-tight",
+        "subtitle": "text-xl md:text-2xl font-light tracking-wide text-muted-foreground",
+        "body": "text-base md:text-lg leading-relaxed text-muted-foreground",
+        "caption": "text-sm font-medium tracking-widest uppercase text-muted-foreground/60"
+      },
+      "imports": [
+        "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
+      ]
+    },
+    "colors": {
+      "palette": {
+        "background": "#050505",
+        "foreground": "#ededed",
+        "card": "#0a0a0a",
+        "card_foreground": "#ffffff",
+        "popover": "#0a0a0a",
+        "popover_foreground": "#ffffff",
+        "primary": "#ffffff",
+        "primary_foreground": "#000000",
+        "secondary": "#1a1a1a",
+        "secondary_foreground": "#ffffff",
+        "muted": "#171717",
+        "muted_foreground": "#a1a1aa",
+        "accent": "#262626",
+        "accent_foreground": "#ffffff",
+        "destructive": "#7f1d1d",
+        "destructive_foreground": "#ffffff",
+        "border": "#262626",
+        "input": "#262626",
+        "ring": "#525252"
+      },
+      "gradients": {
+        "hero_overlay": "linear-gradient(to bottom, rgba(5,5,5,0) 0%, rgba(5,5,5,0.8) 100%)",
+        "card_hover": "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)"
+      }
+    },
+    "spacing": {
+      "container_padding": "px-6 md:px-12 lg:px-24",
+      "section_spacing": "py-24 md:py-32",
+      "element_spacing": "gap-8"
+    },
+    "visual_enhancers": {
+      "radius": "rounded-none", 
+      "shadows": {
+        "card": "0 20px 40px -20px rgba(0,0,0,0.5)",
+        "glow": "0 0 20px rgba(255,255,255,0.1)"
+      },
+      "glassmorphism": "backdrop-blur-xl bg-black/40 border border-white/10",
+      "borders": "border border-white/10",
+      "animation_duration": {
+        "fast": "200ms",
+        "normal": "500ms",
+        "slow": "1000ms"
+      }
+    }
+  },
+  "layout_strategies": {
+    "grid_system": {
+      "bento_grid": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[300px]",
+      "portfolio_grid": "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12"
+    },
+    "containers": {
+      "default": "container mx-auto max-w-7xl",
+      "fluid": "w-full"
+    }
+  },
+  "components": {
+    "header": {
+      "type": "fixed",
+      "style": "glassmorphism",
+      "height": "h-20",
+      "elements": ["Logo (Text or SVG)", "NavLinks", "CTA Button"]
+    },
+    "hero": {
+      "style": "Cinematic Fullscreen",
+      "elements": ["Background Video/Image", "Overlay Gradient", "Large Typography", "Scroll Indicator"],
+      "motion": "Parallax + Fade In"
+    },
+    "buttons": {
+      "primary": "bg-white text-black hover:bg-gray-200 rounded-none px-8 py-4 font-bold uppercase tracking-wider transition-all duration-300",
+      "secondary": "bg-transparent border border-white/20 text-white hover:bg-white/10 rounded-none px-8 py-4 font-bold uppercase tracking-wider transition-all duration-300",
+      "ghost": "text-white/70 hover:text-white hover:bg-white/5 rounded-none px-4 py-2"
+    },
+    "cards": {
+      "service_card": "group relative overflow-hidden bg-neutral-900/50 border border-white/5 hover:border-white/20 transition-all duration-500 p-8 flex flex-col justify-between h-full rounded-none",
+      "portfolio_card": "group relative aspect-[4/5] overflow-hidden bg-neutral-900 rounded-none"
+    }
+  },
+  "image_assets": {
+    "hero_background": {
+      "url": "https://images.unsplash.com/photo-1727451139462-cd34008cd50b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwzfHxjaW5lbWF0aWMlMjBmaWxtJTIwcHJvZHVjdGlvbiUyMHN0dWRpbyUyMGJlaGluZCUyMHRoZSUyMHNjZW5lcyUyMGNhbWVyYSUyMGxpZ2h0aW5nfGVufDB8fHx8MTc3MTQ4OTI1NXww&ixlib=rb-4.1.0&q=85",
+      "alt": "Cinematic film studio dark setup with camera",
+      "position": "Hero Section Background"
+    },
+    "about_studio": {
+      "url": "https://images.pexels.com/photos/8089657/pexels-photo-8089657.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Behind the scenes filming session",
+      "position": "About Us Section"
+    },
+    "portfolio": [
+      {
+        "category": "Fashion",
+        "url": "https://images.unsplash.com/photo-1768610284869-83f8c777daf0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwxfHxoaWdoJTIwZmFzaGlvbiUyMHBob3RvZ3JhcGh5JTIwZWRpdG9yaWFsJTIwZHJhbWF0aWMlMjBsaWdodGluZ3xlbnwwfHx8fDE3NzE0ODkyNTZ8MA&ixlib=rb-4.1.0&q=85",
+        "alt": "High fashion editorial woman in red dress"
+      },
+      {
+        "category": "Product",
+        "url": "https://images.pexels.com/photos/29899576/pexels-photo-29899576.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "alt": "Minimalist luxury beauty product display"
+      },
+      {
+        "category": "Event",
+        "url": "https://images.pexels.com/photos/6950141/pexels-photo-6950141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "alt": "Professional corporate conference speaker"
+      },
+      {
+        "category": "Cinematography",
+        "url": "https://images.unsplash.com/photo-1705107958696-a7f73c749ab3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHw0fHxjaW5lbWF0aWMlMjBmaWxtJTIwcHJvZHVjdGlvbiUyMHN0dWRpbyUyMGJlaGluZCUyMHRoZSUyMHNjZW5lcyUyMGNhbWVyYSUyMGxpZ2h0aW5nfGVufDB8fHx8MTc3MTQ4OTI1NXww&ixlib=rb-4.1.0&q=85",
+        "alt": "Camera setup in dark room"
+      },
+      {
+         "category": "Editorial",
+         "url": "https://images.pexels.com/photos/32111884/pexels-photo-32111884.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+         "alt": "Gothic style high fashion portrait"
+      },
+      {
+         "category": "Luxury",
+         "url": "https://images.unsplash.com/photo-1760860992203-85ca32536788?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzN8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwcHJvZHVjdCUyMHBob3RvZ3JhcGh5JTIwbHV4dXJ5JTIwYnJhbmQlMjBhZXN0aGV0aWN8ZW58MHx8fHwxNzcxNDg5MjU4fDA&ixlib=rb-4.1.0&q=85",
+         "alt": "Dior perfume bottle luxury shot"
+      }
+    ],
+    "team": [
+      {
+        "url": "https://images.unsplash.com/photo-1622676614630-a9109126264a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMGFnZW5jeSUyMHRlYW0lMjB3b3JraW5nJTIwdG9nZXRoZXIlMjBtZWV0aW5nfGVufDB8fHx8MTc3MTQ4OTI2Mnww&ixlib=rb-4.1.0&q=85",
+        "alt": "Creative team meeting"
+      }
+    ],
+    "placeholders": {
+       "client_logos": [
+          "https://images.unsplash.com/photo-1640346876447-ec22e2030d3e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85",
+          "https://images.unsplash.com/photo-1652353292901-c9b06631b231?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85",
+          "https://images.unsplash.com/photo-1651575560910-b497ea4ec36f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85"
+       ]
+    }
+  },
+  "instructions_to_main_agent": [
+    "INSTALL_DEPENDENCIES: npm install lucide-react framer-motion clsx tailwind-merge lenis @radix-ui/react-slot",
+    "THEME_SETUP: Set 'darkMode: class' in tailwind.config.js (already set). Ensure index.css uses the dark variables provided in design_system.colors.",
+    "FONTS: Add the Google Fonts import to public/index.html or the main CSS file immediately.",
+    "LAYOUT_RULE: Use 'min-h-screen bg-background text-foreground font-body' on the main wrapper.",
+    "NAVBAR: Create a transparent navbar that becomes 'glassmorphism' on scroll. Use a high z-index (50).",
+    "HERO_SECTION: Use the provided 'hero_background' image. Overlay it with a black gradient so text pop. Animate the headline using framer-motion (staggered fade-up).",
+    "PORTFOLIO_SECTION: Implement a masonry or grid layout. Images must have a hover effect: scale up slightly (1.05) and darken/show title overlay.",
+    "SERVICES_SECTION: Use the 'service_card' style. Icons should be from lucide-react (e.g., Camera, Film, PenTool, Share2).",
+    "CONTACT_FORM: Use simple HTML/React forms styled with Tailwind 'bg-neutral-900 border-neutral-800' inputs. No backend required.",
+    "SMOOTH_SCROLL: Initialize Lenis in the root App component for that luxury feel.",
+    "ACCESSIBILITY: Ensure all text meets contrast ratios. The provided palette is high contrast (White on Black).",
+    "TESTING: Add 'data-testid' to all interactive elements (buttons, links, inputs).",
+    "NO_PLACEHOLDERS: Use the specific image URLs provided in 'image_assets' for their respective sections. Do not use 'via.placeholder.com'.",
+    "UNIVERSAL GUIDELINES: Do not center text by default. Use left alignment for body text. Use uppercase for labels. Use 'rounded-none' for a sharp, cinematic look."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. In frontend design, this creates what users call the 'AI slop' aesthetic. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition. Eg: 'transition: all'. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms.",
+    "You MUST NOT center align the app container, ie do not add '.App { text-align: center; }' in the css file. This disrupts the human natural reading flow of text.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style.",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠💭 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Create new components that match the style and conventions of existing components when needed.",
+    "Components MUST use named exports (export const ComponentName = ...).",
+    "Pages MUST use default exports (export default function PageName() {...}).",
+    "Use 'sonner' for toasts.",
+    "All interactive and key informational elements MUST include a 'data-testid' attribute to facilitate robust automated testing."
+  ]
+}
