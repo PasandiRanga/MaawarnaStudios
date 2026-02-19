@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Linkedin, Mail, Phone } from 'lucide-react';
+import Logo from '@/assets/Maawarna_studios-removebg-preview.png';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,7 +11,14 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold tracking-tighter">MAAWARNA</h3>
+            <Link to="/" className="inline-block hover:opacity-80 transition-opacity duration-300">
+              <img
+                src={Logo}
+                alt="Maawarna Studios"
+                className="h-12 w-auto brightness-0 invert"
+                data-testid="footer-logo"
+              />
+            </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Crafting visual stories that build powerful brands through cinematic production and creative advertising.
             </p>

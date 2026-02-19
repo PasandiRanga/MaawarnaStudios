@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import Logo from '@/assets/Maawarna_studios-removebg-preview.png';
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,9 +44,13 @@ export const Navigation = () => {
           <Link
             to="/"
             data-testid="nav-logo"
-            className="text-2xl font-bold tracking-tighter hover:text-white/80 transition-colors duration-300"
+            className="flex items-center hover:opacity-80 transition-opacity duration-300"
           >
-            MAAWARNA
+            <img
+              src={Logo}
+              alt="Maawarna Studios"
+              className="h-12 w-auto brightness-0 invert"
+            />
           </Link>
 
           {/* Desktop Navigation */}
