@@ -352,7 +352,7 @@ const ContactPage = () => {
                             <div className="text-center">
                                 <MapPin size={48} className="mx-auto mb-4 text-white/20" />
                                 <p className="text-lg font-medium">Maawarna Studios</p>
-                                <p className="text-sm">Los Angeles, California</p>
+                                <p className="text-sm">36, Galhena Road, Nugegoda</p>
                             </div>
                         </div>
                     </motion.div>
