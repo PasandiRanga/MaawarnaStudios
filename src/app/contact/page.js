@@ -73,13 +73,13 @@ const ContactPage = () => {
         {
             icon: Phone,
             label: 'Phone',
-            value: '+1 (234) 567-890',
+            value: '+94 70 172 2051',
             link: 'tel:+94701722051',
         },
         {
             icon: MapPin,
             label: 'Location',
-            value: 'Los Angeles, CA',
+            value: 'Kandy, Sri Lanka',
             link: '#',
         },
     ];
@@ -184,7 +184,7 @@ const ContactPage = () => {
                                             onChange={handleChange}
                                             data-testid="input-phone"
                                             className="w-full bg-neutral-900 border border-neutral-800 text-white px-4 py-3 focus:outline-none focus:border-white/40 transition-colors duration-300"
-                                            placeholder="+1 (234) 567-890"
+                                            placeholder="070 123 4567"
                                         />
                                     </div>
                                 </div>
