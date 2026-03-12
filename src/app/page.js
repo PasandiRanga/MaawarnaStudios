@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 const HomePage = () => {
@@ -41,17 +41,56 @@ const HomePage = () => {
     },
   ];
 
-  const services = [
-    { name: 'Commercial Photography', count: '150+ Projects' },
-    { name: 'Cinematic Videography', count: '200+ Films' },
-    { name: 'Brand Campaigns', count: '80+ Brands' },
-    { name: 'Creative Direction', count: '100+ Campaigns' },
+  const packages = [
+    {
+      name: 'Starter Presence',
+      tagline: 'Small businesses starting social media marketing',
+      price: 'Rs. 20,000',
+      period: '/ month',
+      features: [
+        '4 Promo Reels (30–45 sec)',
+        '1 Shooting Session (3-4 hrs)',
+        'Basic editing + colour grading',
+        'Trend-based cuts & captions',
+        'Background music',
+        'Vertical format (IG / TikTok ready)',
+      ]
+    },
+    {
+      name: 'Growth',
+      tagline: 'Businesses wanting consistent engagement',
+      price: 'Rs. 35,000',
+      badge: 'Most Popular',
+      period: '/ month',
+      features: [
+        '5 Promo Reels',
+        '2 Presenter Videos (talking/head or staff intro)',
+        '1 Half-day Shoot (5-6 hrs)',
+        'Creative direction guidance',
+        'Motion text & branding elements',
+        'Thumbnail covers for reels',
+      ]
+    }
   ];
 
-  const clientLogos = [
-    'https://images.unsplash.com/photo-1640346876447-ec22e2030d3e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85',
-    'https://images.unsplash.com/photo-1651575560910-b497ea4ec36f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85',
-    'https://images.unsplash.com/photo-1652353292901-c9b06631b231?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85',
+  const addOns = [
+    { name: 'Extra Reel', price: 'Rs. 6,000' },
+    { name: 'Presenter Video', price: 'Rs. 8,000' },
+    { name: 'Script Writing', price: 'Rs. 5,000' },
+    { name: 'Drone Shots', price: 'Rs. 10,000' },
+    { name: 'Voice Over', price: 'Rs. 7,000' },
+    { name: 'Same-Day Delivery', price: 'Rs. 5,000' },
+    { name: 'Product Photoshoot', price: 'Rs. 8,000' },
+  ];
+
+  const clients = [
+    'Yoo boba',
+    'Pnutty',
+    'Viora fashion',
+    'AliiKai',
+    'Samantha motor traders',
+    'Eco lux villas',
+    'SD fitness'
   ];
 
   return (
@@ -196,7 +235,7 @@ const HomePage = () => {
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight">Featured Works</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {featuredWorks.map((work, index) => (
               <motion.div
                 key={work.id}
@@ -262,27 +301,68 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            {packages.map((pkg, index) => (
               <motion.div
-                key={service.name}
+                key={pkg.name}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group relative overflow-hidden bg-neutral-900/50 border border-white/5 hover:border-white/20 transition-all duration-500 p-8 flex flex-col justify-between h-64"
-                data-testid={`service-card-${index}`}
+                className={`relative overflow-hidden bg-neutral-900/50 border transition-all duration-500 p-8 md:p-12 flex flex-col ${pkg.badge ? 'border-white/30 hover:border-white/50' : 'border-white/5 hover:border-white/20'
+                  }`}
+                data-testid={`package-card-${index}`}
               >
-                <div>
-                  <h3 className="text-xl font-bold mb-3">{service.name}</h3>
-                  <p className="text-sm text-muted-foreground">{service.count}</p>
+                {pkg.badge && (
+                  <div className="absolute top-0 right-0 bg-white text-black text-xs font-bold uppercase tracking-wider py-1 px-4">
+                    {pkg.badge}
+                  </div>
+                )}
+                <div className="mb-8">
+                  <h3 className="text-3xl font-bold mb-2">{pkg.name}</h3>
+                  <p className="text-muted-foreground text-sm uppercase tracking-wider mb-6">Best for: {pkg.tagline}</p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-bold">{pkg.price}</span>
+                    <span className="text-muted-foreground">{pkg.period}</span>
+                  </div>
                 </div>
-                <div className="text-6xl font-bold text-white/5 group-hover:text-white/10 transition-colors duration-500">
-                  0{index + 1}
+
+                <div className="flex-grow">
+                  <ul className="space-y-4">
+                    {pkg.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Add-Ons Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto"
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold">Available Add-Ons</h3>
+            </div>
+            <div className="bg-neutral-900/30 border border-white/5 p-6 md:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                {addOns.map((addon) => (
+                  <div key={addon.name} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0 md:[&:nth-last-child(-n+2)]:border-0">
+                    <span className="text-white/80">{addon.name}</span>
+                    <span className="font-medium">{addon.price}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -323,16 +403,16 @@ const HomePage = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
-            className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center opacity-60"
+            className="flex flex-wrap justify-center gap-x-12 gap-y-8 opacity-60 max-w-5xl mx-auto"
           >
-            {clientLogos.map((logo, index) => (
-              <img
+            {clients.map((client, index) => (
+              <div
                 key={index}
-                src={logo}
-                alt={`Client logo ${index + 1}`}
-                className="w-24 h-24 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                data-testid={`client-logo-${index}`}
-              />
+                className="text-xl md:text-2xl font-medium tracking-widest uppercase text-white hover:text-white/100 hover:opacity-100 transition-all duration-300 cursor-default"
+                data-testid={`client-name-${index}`}
+              >
+                {client}
+              </div>
             ))}
           </motion.div>
         </div>

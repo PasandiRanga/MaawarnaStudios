@@ -101,7 +101,7 @@ const AboutPage = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
+            {/* Stats Section
             <section className="py-24 md:py-32" data-testid="stats-section">
                 <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -128,6 +128,7 @@ const AboutPage = () => {
                     </div>
                 </div>
             </section>
+             */}
 
             {/* Mission & Philosophy */}
             <section className="py-24 md:py-32 bg-card" data-testid="mission-section">

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Instagram, Facebook, Twitter, Linkedin, Mail, Phone } from 'lucide-react';
-import Logo from '@/assets/Maawarna_studios-removebg-preview.png';
+import Logo from '@/assets/Logo.png';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -15,7 +15,7 @@ export const Footer = () => {
               <img
                 src={Logo.src || Logo}
                 alt="Maawarna Studios"
-                className="h-12 w-auto brightness-0 invert"
+                className="h-[110px] w-[110px] brightness-0 invert"
                 data-testid="footer-logo"
               />
             </Link>

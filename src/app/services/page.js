@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, Film, PenTool, Share2, Scissors, Sparkles } from 'lucide-react';
+import { ArrowDown, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 const ServicesPage = () => {
@@ -10,85 +10,46 @@ const ServicesPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const services = [
+    const packages = [
         {
-            icon: Camera,
-            title: 'Commercial Photography',
-            description: 'High-end photography for products, fashion, corporate, and editorial needs. We create images that capture attention and tell your brand story.',
+            name: 'Starter Presence',
+            tagline: 'Small businesses starting social media marketing',
+            price: 'Rs. 20,000',
+            period: '/ month',
             features: [
-                'Product Photography',
-                'Fashion & Editorial',
-                'Corporate Headshots',
-                'Lifestyle & Branding',
-                'Food & Beverage',
-                'Architecture & Interior',
-            ],
+                '4 Promo Reels (30–45 sec)',
+                '1 Shooting Session (3-4 hrs)',
+                'Basic editing + colour grading',
+                'Trend-based cuts & captions',
+                'Background music',
+                'Vertical format (IG / TikTok ready)',
+            ]
         },
         {
-            icon: Film,
-            title: 'Cinematic Videography',
-            description: 'Film-grade video production that brings your story to life. From brand films to commercials, we create videos that engage and inspire.',
+            name: 'Growth',
+            tagline: 'Businesses wanting consistent engagement',
+            price: 'Rs. 35,000',
+            badge: 'Most Popular',
+            period: '/ month',
             features: [
-                'Brand Films',
-                'TV Commercials',
-                'Corporate Videos',
-                'Documentary Style',
-                'Music Videos',
-                'Event Coverage',
-            ],
-        },
-        {
-            icon: Sparkles,
-            title: 'Brand Advertising Campaigns',
-            description: 'Integrated campaigns that combine strategy, creativity, and execution. We develop concepts that resonate with your audience and drive results.',
-            features: [
-                'Campaign Strategy',
-                'Creative Concept Development',
-                'Multi-Platform Content',
-                'Social Media Campaigns',
-                'Print Advertising',
-                'Digital Marketing Content',
-            ],
-        },
-        {
-            icon: Share2,
-            title: 'Social Media Content Production',
-            description: 'Engaging content tailored for social platforms. We create thumb-stopping visuals that increase engagement and grow your following.',
-            features: [
-                'Instagram Content',
-                'TikTok Videos',
-                'YouTube Production',
-                'Reels & Stories',
-                'Content Calendar Planning',
-                'Influencer Collaborations',
-            ],
-        },
-        {
-            icon: PenTool,
-            title: 'Creative Direction',
-            description: 'Strategic creative leadership for your projects. We guide the visual narrative from concept to completion, ensuring cohesive and impactful results.',
-            features: [
-                'Art Direction',
-                'Brand Visual Identity',
-                'Mood Board & Style Guides',
-                'Concept Development',
-                'Creative Consultation',
-                'Project Management',
-            ],
-        },
-        {
-            icon: Scissors,
-            title: 'Post Production & Editing',
-            description: 'Professional editing and color grading that elevates your footage. We polish every frame to achieve cinematic quality and emotional impact.',
-            features: [
-                'Video Editing',
-                'Color Grading',
-                'Motion Graphics',
-                'Sound Design',
-                'Visual Effects',
-                'Photo Retouching',
-            ],
-        },
+                '5 Promo Reels',
+                '2 Presenter Videos (talking/head or staff intro)',
+                '1 Half-day Shoot (5-6 hrs)',
+                'Creative direction guidance',
+                'Motion text & branding elements',
+                'Thumbnail covers for reels',
+            ]
+        }
+    ];
+
+    const addOns = [
+        { name: 'Extra Reel', price: 'Rs. 6,000' },
+        { name: 'Presenter Video', price: 'Rs. 8,000' },
+        { name: 'Script Writing', price: 'Rs. 5,000' },
+        { name: 'Drone Shots', price: 'Rs. 10,000' },
+        { name: 'Voice Over', price: 'Rs. 7,000' },
+        { name: 'Same-Day Delivery', price: 'Rs. 5,000' },
+        { name: 'Product Photoshoot', price: 'Rs. 8,000' },
     ];
 
     return (
@@ -115,47 +76,72 @@ const ServicesPage = () => {
                 </div>
             </section>
 
-            {/* Services Grid */}
+            {/* Services Packages */}
             <section className="py-24 md:py-32 bg-card" data-testid="services-grid">
                 <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {services.map((service, index) => {
-                            const Icon = service.icon;
-                            return (
-                                <motion.div
-                                    key={service.title}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                    className="group relative overflow-hidden bg-neutral-900/50 border border-white/5 hover:border-white/20 transition-all duration-500 p-8 flex flex-col"
-                                    data-testid={`service-${index}`}
-                                >
-                                    <Icon className="mb-6 text-white/80 group-hover:text-white transition-colors duration-500" size={48} />
-
-                                    <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-
-                                    <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-6">
-                                        {service.description}
-                                    </p>
-
-                                    <div className="mt-auto">
-                                        <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-3">
-                                            Includes:
-                                        </p>
-                                        <ul className="grid grid-cols-2 gap-2">
-                                            {service.features.map((feature, idx) => (
-                                                <li key={idx} className="text-sm text-muted-foreground flex items-start">
-                                                    <span className="mr-2 text-white/40">•</span>
-                                                    {feature}
-                                                </li>
-                                            ))}
-                                        </ul>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                        {packages.map((pkg, index) => (
+                            <motion.div
+                                key={pkg.name}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                className={`relative overflow-hidden bg-neutral-900/50 border transition-all duration-500 p-8 md:p-12 flex flex-col ${pkg.badge ? 'border-white/30 hover:border-white/50' : 'border-white/5 hover:border-white/20'
+                                    }`}
+                                data-testid={`service-${index}`}
+                            >
+                                {pkg.badge && (
+                                    <div className="absolute top-0 right-0 bg-white text-black text-xs font-bold uppercase tracking-wider py-1 px-4">
+                                        {pkg.badge}
                                     </div>
-                                </motion.div>
-                            );
-                        })}
+                                )}
+                                <div className="mb-8">
+                                    <h3 className="text-3xl font-bold mb-2">{pkg.name}</h3>
+                                    <p className="text-muted-foreground text-sm uppercase tracking-wider mb-6">Best for: {pkg.tagline}</p>
+                                    <div className="flex items-baseline gap-2">
+                                        <span className="text-4xl font-bold">{pkg.price}</span>
+                                        <span className="text-muted-foreground">{pkg.period}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex-grow">
+                                    <ul className="space-y-4">
+                                        {pkg.features.map((feature, i) => (
+                                            <li key={i} className="flex items-start gap-3">
+                                                <CheckCircle2 className="w-5 h-5 text-white/60 shrink-0 mt-0.5" />
+                                                <span className="text-muted-foreground">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
+
+                    {/* Add-Ons Section */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="max-w-4xl mx-auto"
+                    >
+                        <div className="text-center mb-8">
+                            <h3 className="text-3xl font-bold">Available Add-Ons</h3>
+                            <p className="text-muted-foreground mt-2">Enhance your package with these optional additions</p>
+                        </div>
+                        <div className="bg-neutral-900/30 border border-white/5 p-6 md:p-12">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
+                                {addOns.map((addon) => (
+                                    <div key={addon.name} className="flex justify-between items-center py-3 border-b border-white/5 last:border-0 md:[&:nth-last-child(-n+2)]:border-0">
+                                        <span className="text-white/80 text-lg">{addon.name}</span>
+                                        <span className="font-medium text-lg">{addon.price}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 

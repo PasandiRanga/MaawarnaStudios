@@ -66,19 +66,56 @@ const ClientsPage = () => {
         },
     ];
 
-    const clientLogos = [
-        { name: 'Client 1', url: 'https://images.unsplash.com/photo-1640346876447-ec22e2030d3e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85' },
-        { name: 'Client 2', url: 'https://images.unsplash.com/photo-1651575560910-b497ea4ec36f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85' },
-        { name: 'Client 3', url: 'https://images.unsplash.com/photo-1652353292901-c9b06631b231?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85' },
-        { name: 'Client 4', url: 'https://images.unsplash.com/photo-1640346876447-ec22e2030d3e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85' },
-        { name: 'Client 5', url: 'https://images.unsplash.com/photo-1651575560910-b497ea4ec36f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85' },
-        { name: 'Client 6', url: 'https://images.unsplash.com/photo-1652353292901-c9b06631b231?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlJTIwbWluaW1hbCUyMGJsYWNrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE0ODkyNzl8MA&ixlib=rb-4.1.0&q=85' },
+    const clients = [
+        'Yoo boba',
+        'Pnutty',
+        'Viora fashion',
+        'AliiKai',
+        'Samantha motor traders',
+        'Eco lux villas',
+        'SD fitness'
     ];
 
     return (
         <div className="min-h-screen bg-background text-foreground pt-20">
+            {/* Client Logos / Brands */}
+            <section className="py-24 md:py-32" data-testid="client-logos-section">
+                <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-12"
+                    >
+                        <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
+                            Brand Collaborations
+                        </p>
+                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">We've Worked With</h2>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        viewport={{ once: true }}
+                        className="flex flex-wrap justify-center gap-x-12 gap-y-8 opacity-60 max-w-5xl mx-auto"
+                    >
+                        {clients.map((client, index) => (
+                            <div
+                                key={index}
+                                className="text-xl md:text-2xl font-medium tracking-widest uppercase text-white hover:text-white/100 hover:opacity-100 transition-all duration-300 cursor-default"
+                                data-testid={`client-name-${index}`}
+                            >
+                                {client}
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
             {/* Hero Section */}
-            <section className="py-24 md:py-32" data-testid="clients-hero-section">
+            <section className="py-12 md:py-24 bg-card" data-testid="clients-hero-section">
                 <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -98,6 +135,10 @@ const ClientsPage = () => {
                     </motion.div>
                 </div>
             </section>
+
+
+
+
 
             {/* Testimonials Grid */}
             <section className="py-24 md:py-32 bg-card" data-testid="testimonials-section">
@@ -146,7 +187,7 @@ const ClientsPage = () => {
                 </div>
             </section>
 
-            {/* Trust Metrics */}
+            {/* Trust Metrics
             <section className="py-24 md:py-32" data-testid="trust-metrics-section">
                 <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
                     <motion.div
@@ -187,42 +228,9 @@ const ClientsPage = () => {
                     </div>
                 </div>
             </section>
+            */}
 
-            {/* Client Logos */}
-            <section className="py-24 md:py-32 bg-card" data-testid="client-logos-section">
-                <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-12"
-                    >
-                        <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
-                            Brand Collaborations
-                        </p>
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">We've Worked With</h2>
-                    </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        viewport={{ once: true }}
-                        className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center opacity-60"
-                    >
-                        {clientLogos.map((logo, index) => (
-                            <img
-                                key={index}
-                                src={logo.url}
-                                alt={logo.name}
-                                className="w-24 h-24 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                                data-testid={`client-logo-${index}`}
-                            />
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
 
             {/* CTA Section */}
             <section className="py-24 md:py-32" data-testid="clients-cta-section">

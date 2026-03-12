@@ -79,8 +79,8 @@ const ContactPage = () => {
         {
             icon: MapPin,
             label: 'Location',
-            value: 'Kandy, Sri Lanka',
-            link: '#',
+            value: '36, Galhena Road, Nugegoda',
+            link: 'https://www.google.com/maps/search/?api=1&query=36,+Galhena+Road,+Nugegoda,+Sri+Lanka',
         },
     ];
 
@@ -303,7 +303,7 @@ const ContactPage = () => {
                             </div>
 
                             {/* Business Hours */}
-                            <div className="bg-neutral-900/50 border border-white/5 p-8">
+                            {/* <div className="bg-neutral-900/50 border border-white/5 p-8">
                                 <h3 className="text-xl font-bold mb-4">Business Hours</h3>
                                 <div className="space-y-2 text-muted-foreground">
                                     <div className="flex justify-between">
@@ -319,7 +319,7 @@ const ContactPage = () => {
                                         <span className="font-medium">Closed</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </motion.div>
                     </div>
                 </div>
@@ -348,13 +348,17 @@ const ContactPage = () => {
                         viewport={{ once: true }}
                         className="aspect-video bg-neutral-900 border border-white/10 overflow-hidden"
                     >
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                            <div className="text-center">
-                                <MapPin size={48} className="mx-auto mb-4 text-white/20" />
-                                <p className="text-lg font-medium">Maawarna Studios</p>
-                                <p className="text-sm">36, Galhena Road, Nugegoda</p>
-                            </div>
-                        </div>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.0820849103!2d79.89765107475654!3d6.880774693118042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25a50798e983b%3A0x6331a982997e068!2s36%20Galhena%20Rd%2C%20Nugegoda!5e0!3m2!1sen!2slk!4v1740209503108!5m2!1sen!2slk"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen=""
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="Maawarna Studios Location"
+                            className="grayscale contrast-125 opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                        ></iframe>
                     </motion.div>
                 </div>
             </section>
