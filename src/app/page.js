@@ -4,7 +4,9 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Video, Camera, Palette, ArrowRight, Star } from 'lucide-react';
-import StudioHero from '@/components/StudioHero';
+// import StudioHero from '@/components/StudioHero';  // 3D camera + studio lighting hero — disabled
+import VideoHero from '@/components/VideoHero';
+import Logo from '@/assets/Logo.png';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -21,31 +23,31 @@ const BLUE_LIGHT = '#60a5fa';
 const featuredWorks = [
   {
     id: 1,
-    title: 'Haute Couture Editorial',
-    category: 'Photography',
-    client: 'Vogue Magazine',
-    image: 'https://images.unsplash.com/photo-1768610284869-83f8c777daf0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwxfHxoaWdoJTIwZmFzaGlvbiUyMHBob3RvZ3JhcGh5JTIwZWRpdG9yaWFsJTIwZHJhbWF0aWMlMjBsaWdodGluZ3xlbnwwfHx8fDE3NzE0ODkyNTZ8MA&ixlib=rb-4.1.0&q=85',
-  },
-  {
-    id: 2,
-    title: 'Brand Cinematic Film',
-    category: 'Videography',
+    title: 'Promotional Reels',
+    category: 'Promotional Reels',
     client: 'Tech Corp',
     image: 'https://images.unsplash.com/photo-1705107958696-a7f73c749ab3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHw0fHxjaW5lbWF0aWMlMjBmaWxtJTIwcHJvZHVjdGlvbiUyMHN0dWRpbyUyMGJlaGluZCUyMHRoZSUyMHNjZW5lcyUyMGNhbWVyYSUyMGxpZ2h0aW5nfGVufDB8fHx8MTc3MTQ4OTI1NXww&ixlib=rb-4.1.0&q=85',
   },
   {
+    id: 2,
+    title: 'Event Coverage',
+    category: 'Event Coverage',
+    client: 'Global Summit 2024',
+    image: 'https://images.pexels.com/photos/6950141/pexels-photo-6950141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+  },
+  {
     id: 3,
-    title: 'Luxury Product Launch',
-    category: 'Commercial',
+    title: 'Product Photography',
+    category: 'Product Photography',
     client: 'Dior',
     image: 'https://images.unsplash.com/photo-1760860992203-85ca32536788?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzN8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwcHJvZHVjdCUyMHBob3RvZ3JhcGh5JTIwbHV4dXJ5JTIwYnJhbmQlMjBhZXN0aGV0aWN8ZW58MHx8fHwxNzcxNDg5MjU4fDA&ixlib=rb-4.1.0&q=85',
   },
   {
     id: 4,
-    title: 'Corporate Event Coverage',
-    category: 'Events',
-    client: 'Global Summit 2024',
-    image: 'https://images.pexels.com/photos/6950141/pexels-photo-6950141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    title: 'Graphic Designs',
+    category: 'Graphic Designs',
+    client: 'Viora Fashion',
+    image: 'https://images.unsplash.com/photo-1768610284869-83f8c777daf0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwxfHxoaWdoJTIwZmFzaGlvbiUyMHBob3RvZ3JhcGh5JTIwZWRpdG9yaWFsJTIwZHJhbWF0aWMlMjBsaWdodGluZ3xlbnwwfHx8fDE3NzE0ODkyNTZ8MA&ixlib=rb-4.1.0&q=85',
   },
 ];
 
@@ -81,10 +83,12 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ── Hero ── */}
-      <StudioHero />
+      {/* <StudioHero />  ← 3D camera rig + studio lights, kept for reference */}
+      <VideoHero />
 
       {/* ── About Snapshot ── */}
-      <section className="py-24 md:py-36">
+      {/* Tight top padding: the hero's copy block already ends close above it. */}
+      <section className="pt-12 md:pt-16 pb-24 md:pb-36">
         <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
@@ -130,12 +134,12 @@ export default function HomePage() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="relative aspect-4/5 overflow-hidden"
+              className="relative aspect-4/5 overflow-hidden flex items-center justify-center"
             >
               <img
-                src="https://images.pexels.com/photos/8089657/pexels-photo-8089657.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                alt="Behind the scenes filming"
-                className="w-full h-full object-cover"
+                src={Logo.src || Logo}
+                alt="Maawarna Studios"
+                className="w-full h-full object-contain"
               />
               <div className="absolute top-4 left-4 w-16 h-16 pointer-events-none"
                 style={{ border: `1.5px solid ${BLUE}`, opacity: 0.4 }} />
@@ -199,11 +203,7 @@ export default function HomePage() {
                   style={{ background: BLUE }}
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
-                  <p className="text-[10px] tracking-[0.22em] uppercase mb-1.5 font-medium" style={{ color: BLUE_LIGHT }}>
-                    {work.category}
-                  </p>
-                  <h3 className="text-lg font-bold leading-tight mb-1">{work.title}</h3>
-                  <p className="text-xs text-foreground/50">{work.client}</p>
+                  <h3 className="text-lg font-bold leading-tight">{work.title}</h3>
                 </div>
               </motion.div>
             ))}

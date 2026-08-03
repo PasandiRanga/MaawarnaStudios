@@ -64,10 +64,31 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground pt-20">
 
+      {/* ── Intro Video ── */}
+      <section className="w-full flex justify-center pt-5" data-testid="about-video-section">
+        <div className="relative w-full max-w-4xl md:max-w-5xl">
+          <video
+            className="w-full h-auto block"
+            style={{ mixBlendMode: 'screen' }}
+            src="/videos/logovid_2.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
+          {/* edge fades blending video into page background */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background to-transparent" />
+        </div>
+      </section>
+
       {/* ── Hero ── */}
-      <section className="py-24 md:py-32" data-testid="about-hero-section">
+      <section className="py-8 md:py-18" data-testid="about-hero-section">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-          <motion.div variants={fadeUp} initial="hidden" animate="show" className="max-w-4xl">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.4 }} className="max-w-4xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-6 h-px" style={{ background: BLUE }} />
               <span className="text-xs tracking-[0.28em] uppercase font-medium" style={{ color: BLUE }}>
@@ -90,9 +111,9 @@ export default function AboutPage() {
               <br />Storytellers.
             </h1>
             <p className="text-lg md:text-xl text-foreground/50 font-light leading-relaxed max-w-2xl">
-              Maawarna Studios was founded on a simple belief: great stories have the power to
+              Maawarna Studios was founded on a simple belief, great stories have the power to
               transform brands. We combine cinematic artistry with strategic thinking to create
-              content that doesn't just look beautiful — it drives results.
+              content that doesn't just look beautiful, it drives results.
             </p>
           </motion.div>
         </div>
@@ -137,7 +158,7 @@ export default function AboutPage() {
               </p>
               <p className="text-base md:text-lg leading-relaxed text-foreground/50 mb-5">
                 Our work spans product marketing videos, brand reels, presenter videos, event
-                coverage, and commercial campaigns — always with the same obsession: frames that
+                coverage, and commercial campaigns, always with the same obsession, frames that
                 matter.
               </p>
               <p className="text-base md:text-lg leading-relaxed text-foreground/50 mb-8">
@@ -178,7 +199,7 @@ export default function AboutPage() {
               Crafting Visual Excellence
             </h2>
             <p className="text-xl text-foreground/45 font-light leading-relaxed">
-              To empower brands with cinematic storytelling that transcends traditional advertising —
+              To empower brands with cinematic storytelling that transcends traditional advertising,
               creating emotional connections that drive meaningful engagement and lasting impact.
             </p>
           </motion.div>
