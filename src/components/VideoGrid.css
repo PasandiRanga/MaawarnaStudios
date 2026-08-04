@@ -1,0 +1,45 @@
+/*
+ * Masonry track for VideoGrid.
+ *
+ * The column count and the gutter live here; VideoGrid reads both back off the
+ * grid at runtime rather than duplicating the numbers in JS, so changing a
+ * breakpoint here is the whole edit.
+ *
+ * Rows are one pixel tall and the row gap is zero — that is what makes the
+ * masonry work. A card is placed by spanning as many of those rows as its own
+ * height needs plus the gutter, which is why the row gap has to stay at 0 (see
+ * `place()` in VideoGrid.js).
+ */
+
+.vg-grid {
+  --vg-gap: 14px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 var(--vg-gap);
+  grid-auto-rows: 1px;
+  /* Cards are placed by explicit span, so a tall one can leave a hole beside a
+     short one. Dense backfills it with whatever comes later and fits. */
+  grid-auto-flow: dense;
+}
+
+@media (min-width: 768px) {
+  .vg-grid {
+    --vg-gap: 18px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .vg-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.vg-card {
+  /* The span is a gutter taller than the card, so the card must take its own
+     intrinsic height and leave that gutter empty below it — stretching to fill
+     the span instead would letterbox the video inside its own card. */
+  align-self: start;
+  padding: 0;
+}

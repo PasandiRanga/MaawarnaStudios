@@ -1,0 +1,44 @@
+/*
+ * Masonry track for ImageGrid — the same machinery as VideoGrid.css, kept
+ * separate so the two feeds can be tuned apart: stills are cheaper than video,
+ * so a graphics set runs a column wider before the cards get too small to read.
+ *
+ * Column count and gutter live here; ImageGrid reads both back off the grid at
+ * runtime rather than duplicating the numbers in JS. Rows are one pixel tall
+ * with a zero row gap, and a card spans as many of those rows as its own height
+ * plus the gutter needs — see `place()` in ImageGrid.js.
+ */
+
+.ig-grid {
+  --ig-gap: 12px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 var(--ig-gap);
+  grid-auto-rows: 1px;
+  /* Cards are placed by explicit span, so a tall one leaves a hole beside a
+     short one. Dense backfills it with whatever comes later and fits, which is
+     what keeps a mixed-orientation set from growing ragged columns. */
+  grid-auto-flow: dense;
+}
+
+@media (min-width: 768px) {
+  .ig-grid {
+    --ig-gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .ig-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.ig-card {
+  /* The span is a gutter taller than the card, so the card takes its own
+     intrinsic height and leaves that gutter empty below it. Stretching to fill
+     the span instead would pull the card off the image's aspect ratio. */
+  align-self: start;
+  padding: 0;
+}

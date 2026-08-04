@@ -20,7 +20,9 @@ node_modules/
 /coverage
 
 # Next.js
-/.next/
+# Unanchored: a stray build can leave a .next/ well below the root — one turned
+# up under src/assets — and `/.next/` alone would not catch it.
+.next/
 /out/
 next-env.d.ts
 *.tsbuildinfo
