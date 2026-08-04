@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "//": "The Build Command configured in the Vercel dashboard is stale — it reads `prisma generate && next build`, which predates scripts/sync-videos.mjs and silently drops it. That script is the only thing that creates public/videos/portfolio/, and that directory is gitignored on purpose (it is generated output; committing it would store every clip twice). So the videography clips never existed in the deployment and every <video> src returned the 404 page. A buildCommand here overrides the dashboard, and delegating to `npm run build` keeps package.json the single source of truth for the build.",
+  "buildCommand": "npm run build"
+}
