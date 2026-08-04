@@ -3,6 +3,13 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
 
+/* The one instance driving the whole page. Components that need to pause the
+   page (a full-screen viewer) or read its scroll reach it through `getLenis`
+   rather than standing up a second instance that would fight this one. */
+let instance = null;
+
+export const getLenis = () => instance;
+
 export default function SmoothScrolling({ children }) {
     useEffect(() => {
         const lenis = new Lenis({
@@ -17,6 +24,8 @@ export default function SmoothScrolling({ children }) {
             infinite: false,
         });
 
+        instance = lenis;
+
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
@@ -26,6 +35,7 @@ export default function SmoothScrolling({ children }) {
 
         return () => {
             lenis.destroy();
+            instance = null;
         };
     }, []);
 

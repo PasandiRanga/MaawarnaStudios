@@ -20,7 +20,9 @@ node_modules/
 /coverage
 
 # Next.js
-/.next/
+# Unanchored: a stray build can leave a .next/ well below the root — one turned
+# up under src/assets — and `/.next/` alone would not catch it.
+.next/
 /out/
 next-env.d.ts
 *.tsbuildinfo
@@ -63,6 +65,15 @@ chainlit.md
 
 # Data and databases
 agenthub/agents/youtube/db
+
+# Camera masters kept by scripts/optimize-images.mjs and scripts/compress-videos.mjs
+# before they rewrite in place. Local safety net only — these are the full-weight
+# originals and must never be committed.
+/_originals/
+
+# Mirrored out of src/assets/Portfolio/Videography by scripts/sync-videos.mjs,
+# which runs as part of the build. Committing it would store every clip twice.
+/public/videos/portfolio/
 
 # Archive files and large assets
 **/*.zip

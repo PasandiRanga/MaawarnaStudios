@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
+import { clients } from '@/data/clients';
 
 const ClientsPage = () => {
     useEffect(() => {
@@ -66,16 +67,6 @@ const ClientsPage = () => {
         },
     ];
 
-    const clients = [
-        'Yoo boba',
-        'Pnutty',
-        'Viora fashion',
-        'AliiKai',
-        'Samantha motor traders',
-        'Eco lux villas',
-        'SD fitness'
-    ];
-
     return (
         <div className="min-h-screen bg-background text-foreground pt-20">
             {/* Client Logos / Brands */}
@@ -99,15 +90,21 @@ const ClientsPage = () => {
                         whileInView={{ opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
                         viewport={{ once: true }}
-                        className="flex flex-wrap justify-center gap-x-12 gap-y-8 opacity-60 max-w-5xl mx-auto"
+                        className="flex flex-wrap justify-center gap-x-12 gap-y-10 md:gap-x-16 max-w-5xl mx-auto"
                     >
                         {clients.map((client, index) => (
                             <div
-                                key={index}
-                                className="text-xl md:text-2xl font-medium tracking-widest uppercase text-white hover:text-white/100 hover:opacity-100 transition-all duration-300 cursor-default"
-                                data-testid={`client-name-${index}`}
+                                key={client.name}
+                                className="h-20 w-36 md:h-24 md:w-44 flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity duration-300"
+                                data-testid={`client-logo-${index}`}
                             >
-                                {client}
+                                <img
+                                    src={client.logo}
+                                    alt={client.name}
+                                    loading="lazy"
+                                    className={`w-auto max-w-full object-contain ${client.block ? 'rounded-[16%]' : ''}`}
+                                    style={{ height: `${client.scale * 100}%` }}
+                                />
                             </div>
                         ))}
                     </motion.div>

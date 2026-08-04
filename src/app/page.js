@@ -3,10 +3,17 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Video, Camera, Palette, ArrowRight, Star } from 'lucide-react';
+import { Video, Camera, Palette, ArrowRight } from 'lucide-react';
 // import StudioHero from '@/components/StudioHero';  // 3D camera + studio lighting hero — disabled
 import VideoHero from '@/components/VideoHero';
+import FeaturedVideo from '@/components/FeaturedVideo';
+import FeaturedSlideshow from '@/components/FeaturedSlideshow';
+import { clients } from '@/data/clients';
 import Logo from '@/assets/Logo.png';
+import ProductShot from '@/assets/Featured/SunCrush.jpeg';
+import EventShot from '@/assets/Featured/SusaraSoba.jpeg';
+import VioraCollection from '@/assets/Featured/viora collection 3.png';
+import YooBobaLogo from '@/assets/Featured/Yoo Boba Logo W.png';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -20,34 +27,56 @@ const fadeUp = {
 const BLUE       = '#3b82f6';
 const BLUE_LIGHT = '#60a5fa';
 
+/* One vertical rhythm for the whole page — every section breathes the same.
+   Kept as a literal so Tailwind still sees the class names when it scans. */
+const SECTION_PAD = 'py-10 md:py-14';
+
+/* `portfolioCategory` must match a filter id on the portfolio page, and
+   `portfolioType` a photography sub-filter id — each tile deep-links into that
+   page with its section already selected. */
 const featuredWorks = [
   {
     id: 1,
     title: 'Promotional Reels',
     category: 'Promotional Reels',
-    client: 'Tech Corp',
+    portfolioCategory: 'videography',
+    portfolioType: 'promotional-reels',
+    client: 'AliiKai',
+    /* Videos must be served from /public — `src/assets` is only reachable
+       through a bundler import, and mp4 has no import loader. */
+    video: '/videos/AliKai.mp4',
     image: 'https://images.unsplash.com/photo-1705107958696-a7f73c749ab3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHw0fHxjaW5lbWF0aWMlMjBmaWxtJTIwcHJvZHVjdGlvbiUyMHN0dWRpbyUyMGJlaGluZCUyMHRoZSUyMHNjZW5lcyUyMGNhbWVyYSUyMGxpZ2h0aW5nfGVufDB8fHx8MTc3MTQ4OTI1NXww&ixlib=rb-4.1.0&q=85',
   },
   {
     id: 2,
     title: 'Event Coverage',
     category: 'Event Coverage',
-    client: 'Global Summit 2024',
-    image: 'https://images.pexels.com/photos/6950141/pexels-photo-6950141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    portfolioCategory: 'photography',
+    portfolioType: 'event',
+    client: 'Susara Soba',
+    image: EventShot.src,
   },
   {
     id: 3,
     title: 'Product Photography',
     category: 'Product Photography',
+    portfolioCategory: 'photography',
+    portfolioType: 'product',
     client: 'Dior',
-    image: 'https://images.unsplash.com/photo-1760860992203-85ca32536788?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzN8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwcHJvZHVjdCUyMHBob3RvZ3JhcGh5JTIwbHV4dXJ5JTIwYnJhbmQlMjBhZXN0aGV0aWN8ZW58MHx8fHwxNzcxNDg5MjU4fDA&ixlib=rb-4.1.0&q=85',
+    image: ProductShot.src,
   },
   {
     id: 4,
     title: 'Graphic Designs',
     category: 'Graphic Designs',
+    portfolioCategory: 'graphic-designs',
     client: 'Viora Fashion',
-    image: 'https://images.unsplash.com/photo-1768610284869-83f8c777daf0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwxfHxoaWdoJTIwZmFzaGlvbiUyMHBob3RvZ3JhcGh5JTIwZWRpdG9yaWFsJTIwZHJhbWF0aWMlMjBsaWdodGluZ3xlbnwwfHx8fDE3NzE0ODkyNTZ8MA&ixlib=rb-4.1.0&q=85',
+    /* Two client pieces share this tile — the artwork fills the frame, the
+       logo is a transparent lockup that has to sit inside it. */
+    slides: [
+      { src: VioraCollection.src, alt: 'Viora Fashion collection artwork', fit: 'cover' },
+      { src: YooBobaLogo.src, alt: 'Yoo Boba logo', fit: 'contain' },
+    ],
   },
 ];
 
@@ -67,15 +96,13 @@ const services = [
   {
     icon: Palette,
     title: 'Creative Direction',
-    desc: 'End-to-end creative strategy — concept, art direction, post-production, and delivery.',
+    desc: 'End-to-end creative strategy, concept, art direction, post-production, and delivery.',
     tag: null,
   },
 ];
 
-const clients = [
-  'Yoo Boba', 'Pnutty', 'Viora Fashion', 'AliiKai',
-  'Samantha Motor Traders', 'Eco Lux Villas', 'SD Fitness',
-];
+/* Client roster lives in one place — the clients page renders the same logos. */
+
 
 export default function HomePage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -87,8 +114,7 @@ export default function HomePage() {
       <VideoHero />
 
       {/* ── About Snapshot ── */}
-      {/* Tight top padding: the hero's copy block already ends close above it. */}
-      <section className="pt-12 md:pt-16 pb-24 md:pb-36">
+      <section className={SECTION_PAD}>
         <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
@@ -151,7 +177,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Featured Works ── */}
-      <section className="py-24 md:py-32" style={{ background: 'hsl(220 25% 6%)' }}>
+      <section className={SECTION_PAD} style={{ background: 'hsl(220 25% 6%)' }}>
         <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
           <motion.div
             variants={fadeUp}
@@ -192,12 +218,26 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 className="group relative aspect-3/4 overflow-hidden cursor-pointer"
               >
-                <img
-                  src={work.image}
-                  alt={work.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-106"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+                {work.video ? (
+                  <FeaturedVideo
+                    src={work.video}
+                    title={work.title}
+                    className="transition-transform duration-700 group-hover:scale-106"
+                  />
+                ) : work.slides ? (
+                  <FeaturedSlideshow
+                    slides={work.slides}
+                    title={work.title}
+                    className="transition-transform duration-700 group-hover:scale-106"
+                  />
+                ) : (
+                  <img
+                    src={work.image}
+                    alt={work.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-106"
+                  />
+                )}
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <div
                   className="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
                   style={{ background: BLUE }}
@@ -205,6 +245,11 @@ export default function HomePage() {
                 <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
                   <h3 className="text-lg font-bold leading-tight">{work.title}</h3>
                 </div>
+                <Link
+                  href={`/portfolio?category=${work.portfolioCategory}${work.portfolioType ? `&type=${work.portfolioType}` : ''}`}
+                  aria-label={`View ${work.title} on the portfolio page`}
+                  className="absolute inset-0 z-10"
+                />
               </motion.div>
             ))}
           </div>
@@ -212,7 +257,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Services ── */}
-      <section className="py-24 md:py-32">
+      <section className={SECTION_PAD}>
         <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
           <motion.div
             variants={fadeUp}
@@ -278,8 +323,8 @@ export default function HomePage() {
       </section>
 
       {/* ── Clients Marquee ── */}
-      <section className="py-20 overflow-hidden border-y" style={{ borderColor: 'hsl(220 25% 10%)' }}>
-        <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24 mb-10">
+      <section className={`${SECTION_PAD} overflow-hidden border-y`} style={{ borderColor: 'hsl(220 25% 10%)' }}>
+        <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24 mb-8">
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -298,17 +343,33 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        <div className="overflow-hidden">
-          <div className="marquee-track flex gap-16 items-center whitespace-nowrap" style={{ width: 'max-content' }}>
+        {/* The rail is masked at both ends so logos arrive and leave on a fade
+            rather than clipping against the section edge. */}
+        <div
+          className="overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)',
+          }}
+        >
+          {/* The list is rendered twice — the keyframe scrolls exactly one copy
+              width, so the seam lands back on an identical frame. */}
+          <div className="marquee-track flex gap-10 md:gap-16 items-center" style={{ width: 'max-content' }}>
             {[...clients, ...clients].map((client, i) => (
-              <div key={i} className="flex items-center gap-16">
-                <span
-                  className="text-lg md:text-xl font-bold uppercase tracking-[0.12em]"
-                  style={{ color: 'rgba(235,242,255,0.25)' }}
-                >
-                  {client}
-                </span>
-                <Star size={8} style={{ color: BLUE, opacity: 0.5 }} fill={BLUE} />
+              /* Fixed box, no tile behind it — the box only keeps the rhythm
+                 even between a wide lockup and a square mark. The logo is sized
+                 by `scale` rather than filling the box, so all read equally. */
+              <div
+                key={i}
+                className="shrink-0 h-16 w-32 md:h-20 md:w-40 flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity duration-300"
+              >
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  loading="lazy"
+                  className={`w-auto max-w-full object-contain ${client.block ? 'rounded-[16%]' : ''}`}
+                  style={{ height: `${client.scale * 100}%` }}
+                />
               </div>
             ))}
           </div>
@@ -316,7 +377,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Final CTA ── */}
-      <section className="py-28 md:py-40">
+      <section className={SECTION_PAD}>
         <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
           <motion.div
             variants={fadeUp}

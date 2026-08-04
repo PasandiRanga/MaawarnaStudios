@@ -4,9 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && node scripts/sync-videos.mjs && next build",
     "start": "next start",
     "lint": "eslint",
+    "images": "node scripts/optimize-images.mjs",
+    "images:check": "node scripts/optimize-images.mjs --dry-run",
+    "videos": "node scripts/sync-videos.mjs",
+    "videos:check": "node scripts/sync-videos.mjs --dry-run",
+    "videos:compress": "node scripts/compress-videos.mjs",
+    "videos:compress:check": "node scripts/compress-videos.mjs --dry-run",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
   },

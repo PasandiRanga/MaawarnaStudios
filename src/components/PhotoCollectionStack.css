@@ -1,0 +1,76 @@
+/* Photo mosaic inside a ScrollStack card.
+   `--cols` / `--rows` and the hero's spans are set per collection in JS — the
+   count varies from two shots to eight, and each set fills its card exactly. */
+
+.pc-grid {
+  display: grid;
+  gap: 0.5rem;
+  min-height: 0;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+}
+
+/* The lead frame runs double in whichever direction suits how it was shot —
+   see `mosaic()`. Both spans are 1 when the set divides evenly. */
+.pc-grid > :first-child {
+  grid-column: span var(--hero-col-span);
+  grid-row: span var(--hero-row-span);
+}
+
+.pc-tile {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: hsl(220 20% 10%);
+  cursor: pointer;
+}
+
+.pc-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* The card is a fixed height, so tiles come out landscape however the set was
+   shot. Centred, a portrait frame loses the top of the head as readily as the
+   feet — biasing the crop upward keeps the subject in the tile. */
+.pc-tile--portrait img {
+  object-position: center 28%;
+}
+
+.pc-tile:hover img {
+  transform: scale(1.06);
+}
+
+@media (min-width: 768px) {
+  .pc-grid {
+    gap: 0.75rem;
+  }
+}
+
+/* Below the md breakpoint the card grows with its content instead of filling a
+   fixed height, so the tiles carry the aspect ratio themselves. */
+@media (max-width: 767px) {
+  .pc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+  }
+  .pc-grid > :first-child {
+    grid-column: span 2;
+    grid-row: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .pc-tile {
+    aspect-ratio: 4 / 5;
+  }
+  /* A portrait frame doesn't survive a 16:10 band, so a portrait lead stays the
+     same shape as the rest of the set. */
+  .pc-grid--portrait-hero > :first-child {
+    grid-column: auto;
+    aspect-ratio: 4 / 5;
+  }
+}

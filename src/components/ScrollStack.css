@@ -1,0 +1,71 @@
+/* ScrollStack — layout only; the pinning maths lives in ScrollStack.js. */
+
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+}
+
+/* Positioned, and never transformed: the cards' `offsetTop` is measured against
+   this element, so it has to be their offset parent. */
+.scroll-stack-inner {
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+/* The same slate the portfolio tiles fall back to, so a card reads as the site's
+   surface rather than a hole in the page: grey-blue rather than near-black, with
+   the border off the `--border` token and only a trace of the blue bloom. */
+.scroll-stack-card {
+  position: relative;
+  width: 100%;
+  /* Tall enough that a portrait frame in a two-row mosaic keeps most of its
+     height. The ceiling is what stops the card outgrowing the viewport once it
+     is pinned at `stackPosition` with the stack's own offsets under it. */
+  height: clamp(440px, 72vh, 780px);
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(150deg, hsl(220 25% 12%), hsl(220 25% 7%));
+  border: 1px solid hsl(220 20% 16%);
+  box-shadow:
+    0 34px 80px -34px rgba(0, 0, 0, 0.9),
+    0 0 50px -34px rgba(59, 130, 246, 0.25);
+}
+
+/* Depth cue for buried cards — a grey veil rather than a blur, which would
+   re-rasterise a card full of photographs on every frame it changed. Depth is
+   stepped, so the transition is what keeps the change from popping. */
+.scroll-stack-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: hsl(220 20% 9%);
+  opacity: var(--stack-dim, 0);
+  transition: opacity 0.3s ease;
+}
+
+/* Dwell at the end of the stack before the whole thing unpins and scrolls off. */
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+  margin-top: 12vh;
+}
+
+@media (max-width: 767px) {
+  .scroll-stack-card {
+    height: auto;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-stack-card {
+    height: auto;
+  }
+  .scroll-stack-card + .scroll-stack-card {
+    margin-top: 1.5rem;
+  }
+  .scroll-stack-end {
+    margin-top: 0;
+  }
+}
