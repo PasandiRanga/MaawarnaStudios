@@ -59,7 +59,7 @@ function escapeHtml(value) {
 // Gmail sender has no reputation to spare. No escaping here: it is not markup.
 function buildText({ name, email, phone, company, service, message }) {
     return [
-        'New Message from Maawarna Studios',
+        `New Message from ${name} via Maawarna Studios`,
         '',
         `Name:    ${name}`,
         `Email:   ${email}`,
@@ -79,7 +79,7 @@ function buildHtml({ name, email, phone, company, service, message }) {
     const e = escapeHtml;
     return `
     <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
-      <h2 style="color: #000; border-bottom: 2px solid #eee; padding-bottom: 10px;">New Message from Maawarna Studios</h2>
+      <h2 style="color: #000; border-bottom: 2px solid #eee; padding-bottom: 10px;">New Message from ${e(name)} via Maawarna Studios</h2>
       <p><strong>Name:</strong> ${e(name)}</p>
       <p><strong>Email:</strong> ${e(email)}</p>
       <p><strong>Phone:</strong> ${e(phone || 'N/A')}</p>
