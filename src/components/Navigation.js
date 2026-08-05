@@ -15,7 +15,8 @@ const navLinks = [
   { name: 'About',     path: '/about' },
   { name: 'Portfolio', path: '/portfolio' },
   { name: 'Packages',  path: '/packages' },
-  { name: 'Clients',   path: '/clients' },
+  /* Clients page is still being built out — restore this when it ships. */
+  // { name: 'Clients',   path: '/clients' },
   { name: 'Contact',   path: '/contact' },
 ];
 
@@ -48,21 +49,23 @@ export const Navigation = () => {
         <div className="flex items-center justify-between h-18">
 
           {/* Logo */}
-          <Link
-            href="/"
-            data-testid="nav-logo"
-            className="flex items-center hover:opacity-75 transition-opacity duration-300"
-          >
-            <img
-              src={Logo.src || Logo}
-              alt="Maawarna Studios"
-              className="h-22.5 w-22.5 brightness-0 invert"
-              style={{ filter: 'brightness(0) invert(1)' }}
-            />
-          </Link>
+          <div className="flex-1 flex items-center">
+            <Link
+              href="/"
+              data-testid="nav-logo"
+              className="flex items-center hover:opacity-75 transition-opacity duration-300"
+            >
+              <img
+                src={Logo.src || Logo}
+                alt="Maawarna Studios"
+                className="h-22.5 w-22.5 brightness-0 invert"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
+            </Link>
+          </div>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden md:flex items-center justify-center gap-7">
             {navLinks.map((link) => {
               const active = pathname === link.path;
               return (
@@ -90,7 +93,7 @@ export const Navigation = () => {
           </div>
 
           {/* Desktop CTA */}
-          <Link
+          {/* <Link
             href="/contact"
             data-testid="nav-cta-button"
             className="hidden md:inline-block px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300"
@@ -105,17 +108,19 @@ export const Navigation = () => {
             }}
           >
             Work With Us
-          </Link>
+          </Link> */}
 
           {/* Mobile toggle */}
-          <button
-            data-testid="mobile-menu-toggle"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="md:hidden p-2 transition-colors duration-300"
-            style={{ color: 'rgba(235,242,255,0.7)' }}
-          >
-            {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <div className="flex-1 flex items-center justify-end">
+            <button
+              data-testid="mobile-menu-toggle"
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className="md:hidden p-2 transition-colors duration-300"
+              style={{ color: 'rgba(235,242,255,0.7)' }}
+            >
+              {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -161,7 +166,7 @@ export const Navigation = () => {
                   </motion.div>
                 );
               })}
-              <Link
+              {/* <Link
                 href="/contact"
                 data-testid="mobile-cta-button"
                 onClick={() => setIsMobileOpen(false)}
@@ -172,7 +177,7 @@ export const Navigation = () => {
                 }}
               >
                 Work With Us
-              </Link>
+              </Link> */}
             </div>
           </motion.div>
         )}
