@@ -55,8 +55,8 @@ function build() {
     const id = FOLDERS[parts[1]];
     if (!id) continue;
 
-    const module = files(key);
-    grouped[id].push(module.default ?? module);
+    const mod = files(key);
+    grouped[id].push(mod.default ?? mod);
   }
 
   for (const [id, images] of Object.entries(grouped)) {

@@ -82,7 +82,7 @@ const ClientsPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
                             Brand Collaborations
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">We've Worked With</h2>
+                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">We&apos;ve Worked With</h2>
                     </motion.div>
 
                     <motion.div
@@ -127,7 +127,7 @@ const ClientsPage = () => {
                             What Our Clients Say
                         </h1>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground">
-                            Don't just take our word for it. Hear from the brands and businesses we've helped elevate through cinematic storytelling.
+                            Don&apos;t just take our word for it. Hear from the brands and businesses we&apos;ve helped elevate through cinematic storytelling.
                         </p>
                     </motion.div>
                 </div>
@@ -162,7 +162,7 @@ const ClientsPage = () => {
 
                                 {/* Testimonial Text */}
                                 <p className="text-base leading-relaxed text-muted-foreground mb-6 flex-grow">
-                                    "{testimonial.text}"
+                                    &ldquo;{testimonial.text}&rdquo;
                                 </p>
 
                                 {/* Client Info */}
@@ -245,7 +245,7 @@ const ClientsPage = () => {
                             List of Success Stories
                         </h2>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground mb-12 max-w-2xl mx-auto">
-                            Let's create something extraordinary together
+                            Let&apos;s create something extraordinary together
                         </p>
                         <a
                             href="/contact"

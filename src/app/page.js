@@ -389,7 +389,7 @@ export default function HomePage() {
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-6 h-px" style={{ background: BLUE }} />
               <span className="text-xs tracking-[0.28em] uppercase font-medium" style={{ color: BLUE }}>
-                Let's Work Together
+                Let&apos;s Work Together
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
@@ -405,7 +405,7 @@ export default function HomePage() {
               </span>
             </h2>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
-              Let's collaborate to bring your brand vision to life through cinematic storytelling.
+              Let&apos;s collaborate to bring your brand vision to life through cinematic storytelling.
             </p>
             <Link
               href="/contact"

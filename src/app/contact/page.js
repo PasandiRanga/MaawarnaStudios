@@ -99,7 +99,7 @@ export default function ContactPage() {
               className="text-5xl md:text-7xl xl:text-8xl font-bold tracking-tighter leading-[0.9] mb-8"
               data-testid="contact-title"
             >
-              Let's Create<br />
+              Let&apos;s Create<br />
               <span style={{
                 background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
                 WebkitBackgroundClip: 'text',
@@ -111,7 +111,7 @@ export default function ContactPage() {
               <br />Extraordinary.
             </h1>
             <p className="text-lg md:text-xl text-foreground/45 font-light leading-relaxed max-w-2xl">
-              Ready to elevate your brand with cinematic storytelling? We'd love to hear
+              Ready to elevate your brand with cinematic storytelling? We&apos;d love to hear
               about your project and discuss how we can bring your vision to life.
             </p>
           </motion.div>
