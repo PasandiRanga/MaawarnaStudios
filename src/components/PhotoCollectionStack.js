@@ -2,17 +2,24 @@
 
 /*
  * Photo gallery — one ScrollStack card per collection, each card holding that
- * collection's full set. Tapping a frame opens it full-bleed.
+ * collection's full set.
+ *
+ * Three depths, each one narrowing what you're looking at: the stack is every
+ * collection, tapping a frame opens that collection as an accordion resting on
+ * the frame you tapped, and tapping the open frame lifts it out on its own to be
+ * looked at properly. Escape walks back up a level at a time.
  *
  * Product photography groups by brand, graduation photography by album; the only
  * thing that changes between them is the collections passed in and the eyebrow
  * over each card.
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, X } from 'lucide-react';
+import { X } from 'lucide-react';
+import AccordionGallery from './AccordionGallery';
+import PhotoZoom from './PhotoZoom';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import { getLenis } from './SmoothScrolling';
 import './PhotoCollectionStack.css';
@@ -47,7 +54,30 @@ function mosaic(count, heroPortrait) {
     : { cols, rows: 2, colSpan: 2, rowSpan: 1 };
 }
 
-function Lightbox({ collection, index, onClose, onStep }) {
+/* Which set you're in and how far through it — the same line at both depths, so
+   lifting a frame out doesn't lose your place in the collection. */
+function Caption({ collection, index }) {
+  return (
+    <>
+      <span className="text-[11px] font-bold uppercase tracking-[0.22em]" style={{ color: BLUE }}>
+        {collection.title}
+      </span>
+      <span className="ml-3 text-[11px] tracking-[0.22em] text-foreground/40">
+        {String(index + 1).padStart(2, '0')} / {String(collection.images.length).padStart(2, '0')}
+      </span>
+    </>
+  );
+}
+
+/* Opening a frame opens the set it belongs to. The tapped frame is the one
+   standing open, and its neighbours stay on screen as slivers you can walk
+   through — so a collection is browsed in place rather than one photo at a
+   time behind a pair of arrows. */
+function CollectionViewer({ collection, index, onClose }) {
+  const [current, setCurrent] = useState(index);
+  /* The frame lifted out on its own, if any. Null is the accordion. */
+  const [zoomed, setZoomed] = useState(null);
+
   /* Freeze the page behind the overlay. Lenis owns window scrolling, so asking
      it to stop is the only thing that actually holds. */
   useEffect(() => {
@@ -55,17 +85,19 @@ function Lightbox({ collection, index, onClose, onStep }) {
     return () => getLenis()?.start();
   }, []);
 
+  /* Stepping between frames belongs to the accordion, which moves focus along
+     with the open panel — what the overlay owns is the way back, one depth at a
+     time. Both levels are held here, so the key is handled here rather than
+     racing two listeners for it. */
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight') onStep(1);
-      if (e.key === 'ArrowLeft') onStep(-1);
+      if (e.key !== 'Escape') return;
+      if (zoomed !== null) setZoomed(null);
+      else onClose();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [onClose, onStep]);
-
-  const photo = collection.images[index];
+  }, [zoomed, onClose]);
 
   return (
     <motion.div
@@ -75,10 +107,7 @@ function Lightbox({ collection, index, onClose, onStep }) {
       transition={{ duration: 0.25 }}
       onClick={onClose}
       data-testid="photo-lightbox"
-      /* The picture is a full-width grid item and comes after the controls in
-         the DOM, so without a stacking order of their own the arrows sit
-         underneath it and the picture eats the click. */
-      className="fixed inset-0 z-100 grid place-items-center px-14 py-4 md:px-24 md:py-10"
+      className="fixed inset-0 z-100 grid place-items-center px-4 py-16 md:px-14 md:py-20"
       style={{ background: 'rgba(2,4,10,0.94)', backdropFilter: 'blur(6px)' }}
     >
       <button
@@ -89,71 +118,60 @@ function Lightbox({ collection, index, onClose, onStep }) {
         <X size={22} />
       </button>
 
-      <button
-        onClick={(e) => { e.stopPropagation(); onStep(-1); }}
-        aria-label="Previous photo"
-        className="absolute left-1 md:left-8 z-10 p-3 text-foreground/50 hover:text-foreground transition-colors duration-300"
-      >
-        <ArrowLeft size={22} />
-      </button>
-      <button
-        onClick={(e) => { e.stopPropagation(); onStep(1); }}
-        aria-label="Next photo"
-        className="absolute right-1 md:right-8 z-10 p-3 text-foreground/50 hover:text-foreground transition-colors duration-300"
-      >
-        <ArrowRight size={22} />
-      </button>
-
       <motion.div
-        key={photo.image.src}
-        initial={{ opacity: 0, scale: 0.98 }}
+        initial={{ opacity: 0, scale: 0.985 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         onClick={(e) => e.stopPropagation()}
-        className="relative flex max-h-full"
+        className="w-full max-w-6xl"
       >
-        {/* Intrinsically sized rather than `fill`: a filled image needs a box to
-            fill, and that box is the overlay, not the photo — so the blur
-            placeholder (which next/image paints as a background across the whole
-            box) would stretch across the screen until the photo arrived. Sized
-            from the static import, the element *is* the photo's shape.
-
-            `sizes` is capped rather than `100vw` because unbounded, the optimizer
-            would be asked for a 3840px copy on a retina display — wider than the
-            master, and slower rather than sharper. */}
-        <Image
-          src={photo.image}
-          alt={photo.alt}
-          sizes="(max-width: 1280px) 90vw, 1200px"
-          quality={85}
+        {/* Every frame in the set is on screen at once, so the ones waiting
+            their turn are only ever a sliver wide — `sizes` is what stops the
+            optimizer sending a full-width copy of each. The open panel is the
+            one worth loading first. */}
+        <AccordionGallery
+          items={collection.images.map((photo) => ({
+            image: photo.image,
+            alt: photo.alt,
+            label: collection.title,
+          }))}
+          defaultIndex={index}
+          onChange={setCurrent}
+          onOpen={setZoomed}
+          accentColor={BLUE}
+          overlayColor="#02040a"
+          height="min(72vh, 640px)"
+          gap={12}
+          radius={14}
+          showLabels={false}
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 70vw, 900px"
           priority
-          {...blurProps(photo.image)}
-          className="h-auto w-auto max-h-[80vh] max-w-full object-contain rounded-lg"
+          testId={`photo-accordion-${collection.id}`}
         />
       </motion.div>
 
       <div className="absolute bottom-6 left-0 right-0 text-center pointer-events-none">
-        <span className="text-[11px] font-bold uppercase tracking-[0.22em]" style={{ color: BLUE }}>
-          {collection.title}
-        </span>
-        <span className="ml-3 text-[11px] tracking-[0.22em] text-foreground/40">
-          {String(index + 1).padStart(2, '0')} / {String(collection.images.length).padStart(2, '0')}
-        </span>
+        <Caption collection={collection} index={current} />
       </div>
+
+      {/* Sits over the accordion rather than replacing it — the set stays where
+          it was, blurred, and closing the frame drops you straight back onto it. */}
+      <AnimatePresence>
+        {zoomed !== null && (
+          <PhotoZoom
+            photo={collection.images[zoomed]}
+            caption={<Caption collection={collection} index={zoomed} />}
+            onClose={() => setZoomed(null)}
+            testId={`photo-zoom-${collection.id}`}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
 
 export default function PhotoCollectionStack({ collections, eyebrow, testId }) {
   const [viewer, setViewer] = useState(null);
-
-  const step = useCallback((delta) => {
-    setViewer((current) => {
-      if (!current) return current;
-      const total = collections.find(c => c.id === current.id).images.length;
-      return { ...current, index: (current.index + delta + total) % total };
-    });
-  }, [collections]);
 
   const active = viewer ? collections.find(c => c.id === viewer.id) : null;
 
@@ -240,11 +258,10 @@ export default function PhotoCollectionStack({ collections, eyebrow, testId }) {
 
       <AnimatePresence>
         {active && (
-          <Lightbox
+          <CollectionViewer
             collection={active}
             index={viewer.index}
             onClose={() => setViewer(null)}
-            onStep={step}
           />
         )}
       </AnimatePresence>
