@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { CheckCircle2 } from 'lucide-react';
 import BorderGlow from '@/components/BorderGlow';
+import AnimatedButton from '@/components/AnimatedButton';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -165,28 +165,9 @@ export default function PackagesPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link
-                      href="/contact"
-                      className="mt-8 block text-center py-3.5 text-sm font-bold uppercase tracking-[0.14em] transition-all duration-300"
-                      style={pkg.highlight
-                        ? { background: BLUE, color: '#fff' }
-                        : { border: `1px solid rgba(59,130,246,0.3)`, color: BLUE_LIGHT }
-                      }
-                      onMouseEnter={e => {
-                        if (!pkg.highlight) {
-                          e.currentTarget.style.background = 'rgba(59,130,246,0.08)';
-                          e.currentTarget.style.borderColor = 'rgba(59,130,246,0.6)';
-                        }
-                      }}
-                      onMouseLeave={e => {
-                        if (!pkg.highlight) {
-                          e.currentTarget.style.background = 'transparent';
-                          e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)';
-                        }
-                      }}
-                    >
+                    <AnimatedButton href="/contact" className="mt-8 w-full">
                       Get Started
-                    </Link>
+                    </AnimatedButton>
                   </div>
                 </BorderGlow>
               </motion.div>
@@ -256,19 +237,7 @@ export default function PackagesPage() {
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
               Reach out and we&apos;ll help you find the right solution for your brand and budget.
             </p>
-            <Link
-              href="/contact"
-              className="inline-block px-12 py-5 font-bold uppercase tracking-[0.16em] text-sm transition-all duration-300 group"
-              style={{
-                background: 'linear-gradient(135deg, #60a5fa, #3b82f6)',
-                color: '#fff',
-              }}
-            >
-              <span className="flex items-center gap-2">
-                Get in Touch
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-            </Link>
+            <AnimatedButton href="/contact">Get in Touch</AnimatedButton>
           </motion.div>
         </div>
       </section>

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, CheckCircle2 } from 'lucide-react';
-import Link from 'next/link';
+import AnimatedButton from '@/components/AnimatedButton';
 
 const ServicesPage = () => {
     useEffect(() => {
@@ -257,13 +257,9 @@ const ServicesPage = () => {
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground mb-12 max-w-2xl mx-auto">
                             Let&apos;s discuss how our services can help you achieve your creative goals
                         </p>
-                        <Link
-                            href="/contact"
-                            data-testid="services-cta-button"
-                            className="inline-block bg-white text-black hover:bg-gray-200 rounded-none px-12 py-5 font-bold uppercase tracking-wider transition-all duration-300 text-lg"
-                        >
+                        <AnimatedButton href="/contact" data-testid="services-cta-button">
                             Get in Touch
-                        </Link>
+                        </AnimatedButton>
                     </motion.div>
                 </div>
             </section>

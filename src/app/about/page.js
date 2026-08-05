@@ -2,11 +2,10 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { ArrowRight, Aperture, Clapperboard, Layers, Zap } from 'lucide-react';
+import { Aperture, Clapperboard, Layers, Zap } from 'lucide-react';
+import AnimatedButton from '@/components/AnimatedButton';
 
-const BLUE       = '#3b82f6';
-const BLUE_LIGHT = '#60a5fa';
+const BLUE = '#3b82f6';
 
 const SECTION_PAD = 'py-10 md:py-14';
 
@@ -152,14 +151,7 @@ export default function AboutPage() {
               From small startups to established brands, we approach every project with the
               same level of dedication and artistic excellence.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.14em] group"
-              style={{ color: BLUE_LIGHT }}
-            >
-              Start a Project
-              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+            <AnimatedButton href="/contact">Start a Project</AnimatedButton>
           </motion.div>
         </div>
       </section>
@@ -283,10 +275,6 @@ export default function AboutPage() {
                 alt="Behind the scenes production"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute top-4 left-4 w-14 h-14 pointer-events-none"
-                style={{ border: `1px solid rgba(59,130,246,0.45)` }} />
-              <div className="absolute bottom-4 right-4 w-14 h-14 pointer-events-none"
-                style={{ border: `1px solid rgba(59,130,246,0.45)` }} />
             </motion.div>
           </div>
         </div>
@@ -316,17 +304,7 @@ export default function AboutPage() {
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
               Let&apos;s bring your brand vision to life with cinematic storytelling.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-10 py-4 font-bold text-sm uppercase tracking-[0.16em] transition-all duration-300 group"
-              style={{
-                background: 'linear-gradient(135deg, #60a5fa, #3b82f6)',
-                color: '#fff',
-              }}
-            >
-              Get in Touch
-              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+            <AnimatedButton href="/contact">Get in Touch</AnimatedButton>
           </motion.div>
         </div>
       </section>

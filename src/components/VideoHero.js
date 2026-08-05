@@ -2,8 +2,9 @@
 
 import { useRef, useEffect, useCallback } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import Link from 'next/link';
 import { ArrowDown } from 'lucide-react';
+import GradientButton from './GradientButton';
+import AnimatedButton from './AnimatedButton';
 
 /*
  * Apple-style pinned handoff.
@@ -44,7 +45,7 @@ const EDGE_FEATHER = {
 };
 
 /* Beat of stillness on the last frame before the logo animation runs again. */
-const REPLAY_DELAY_MS = 2500;
+const REPLAY_DELAY_MS = 1000;
 
 /* Must stay in sync with the stage's `pt-2` — it's what the width calc subtracts. */
 const STAGE_TOP_PAD = '0.5rem';
@@ -170,24 +171,35 @@ export default function VideoHero() {
             </div>
           </motion.div>
 
-          {/* Scroll hint — fades the moment the zoom starts */}
-          {!reduceMotion && (
-            <motion.div
-              style={{ opacity: hintOpacity }}
-              className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 z-20 pointer-events-none"
-            >
-              <span className="text-[10px] tracking-[0.22em] uppercase" style={{ color: 'rgba(235,242,255,0.2)' }}>
-                Scroll
-              </span>
-              <motion.div
-                animate={{ y: [0, 7, 0] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <ArrowDown size={14} style={{ color: 'rgba(235,242,255,0.2)' }} />
-              </motion.div>
-            </motion.div>
-          )}
         </div>
+
+        {/*
+          Scroll hint — fades the moment the zoom starts.
+
+          Anchored to the RUNWAY at the first screen's bottom, not to the sticky
+          box. Inside the sticky box its `bottom-6` tracks the box: once the pin
+          releases the box parks at the section's bottom (~170vh) and drags the
+          hint down into the copy, which sits at 115–163vh — straight through the
+          CTA row. Pinned here at ~100vh it simply scrolls up out of frame and
+          stays above the copy's top edge at every scroll position. No z-index
+          either: it must never paint over the copy.
+        */}
+        {!reduceMotion && (
+          <motion.div
+            style={{ opacity: hintOpacity, top: 'calc(100vh - 3.5rem)' }}
+            className="absolute left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 pointer-events-none"
+          >
+            <span className="text-[10px] tracking-[0.22em] uppercase" style={{ color: 'rgba(235,242,255,0.2)' }}>
+              Scroll
+            </span>
+            <motion.div
+              animate={{ y: [0, 7, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ArrowDown size={14} style={{ color: 'rgba(235,242,255,0.2)' }} />
+            </motion.div>
+          </motion.div>
+        )}
       </section>
 
       {/*
@@ -246,29 +258,12 @@ export default function VideoHero() {
           </p>
 
           <div className="flex flex-col sm:flex-row sm:justify-center gap-3 sm:gap-4">
-            <Link
-              href="/portfolio"
-              className="relative w-full sm:w-auto text-center px-7 py-3.5 font-bold text-sm uppercase tracking-[0.14em] overflow-hidden group"
-              style={{ background: 'linear-gradient(135deg, #60a5fa, #3b82f6)', color: '#fff' }}
-            >
-              <span className="relative z-10">View Our Work</span>
-              <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </Link>
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto text-center px-7 py-3.5 font-bold text-sm uppercase tracking-[0.14em] transition-all duration-300"
-              style={{ border: '1px solid rgba(59,130,246,0.3)', color: 'rgba(235,242,255,0.75)' }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = 'rgba(59,130,246,0.65)';
-                e.currentTarget.style.color = '#93c5fd';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)';
-                e.currentTarget.style.color = 'rgba(235,242,255,0.75)';
-              }}
-            >
+            <GradientButton href="/portfolio" className="w-full sm:w-auto">
+              View Our Work
+            </GradientButton>
+            <AnimatedButton href="/contact" className="w-full sm:w-auto">
               Start a Project
-            </Link>
+            </AnimatedButton>
           </div>
         </motion.div>
       </section>

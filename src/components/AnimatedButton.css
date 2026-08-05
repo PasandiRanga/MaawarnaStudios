@@ -1,0 +1,104 @@
+/* Outline CTA whose arrow slides out one side while a twin slides in the other,
+   as an expanding disc floods the box with brand blue and the ring collapses
+   inward. Colours are the site blues on the near-black page ground, and the
+   corners come from --btn-radius so this matches GradientButton beside it. */
+.animated-button {
+  --btn-accent: #60a5fa;      /* ring, text, arrows at rest */
+  --btn-accent-deep: #3b82f6; /* the flood */
+  --btn-ink: #060b14;         /* page ground — the text on the flood */
+
+  position: relative;
+  /* inline-flex, not flex: standalone in a centred block a block-level flex
+     would stretch to the full container width. As a flex item (the hero's CTA
+     row) it gets blockified anyway, so this costs nothing there. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0.6875rem 2.25rem;
+  border: 3px solid transparent;
+  border-radius: var(--btn-radius);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  background-color: transparent;
+  color: var(--btn-accent);
+  box-shadow: 0 0 0 2px var(--btn-accent);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button svg {
+  position: absolute;
+  width: 20px;
+  fill: var(--btn-accent);
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* The arrow that leaves to the right, and its twin waiting off the left edge. */
+.animated-button .arr-1 { right: 16px; }
+.animated-button .arr-2 { left: -25%; }
+
+/* Grown by transform rather than width/height: px→px scaling interpolates,
+   where the original's px→px width jump was sized for one fixed button. A
+   scaled disc covers the box at any width, including full-width on mobile. */
+.animated-button .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--btn-accent-deep);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button:hover,
+.animated-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 12px transparent;
+  color: var(--btn-ink);
+}
+
+.animated-button:is(:hover, :focus-visible) .arr-1 { right: -25%; }
+.animated-button:is(:hover, :focus-visible) .arr-2 { left: 16px; }
+.animated-button:is(:hover, :focus-visible) .text  { transform: translateX(12px); }
+.animated-button:is(:hover, :focus-visible) svg    { fill: var(--btn-ink); }
+
+.animated-button:is(:hover, :focus-visible) .circle {
+  transform: translate(-50%, -50%) scale(26);
+  opacity: 1;
+}
+
+.animated-button:active {
+  scale: 0.95;
+  box-shadow: 0 0 0 4px var(--btn-accent);
+}
+
+/* Reduced motion keeps the colour change — it's the affordance — and drops the
+   travel, which is the part that moves. */
+@media (prefers-reduced-motion: reduce) {
+  .animated-button,
+  .animated-button svg,
+  .animated-button .circle,
+  .animated-button .text {
+    transition: none;
+  }
+  .animated-button:is(:hover, :focus-visible) .arr-1,
+  .animated-button:is(:hover, :focus-visible) .arr-2,
+  .animated-button:is(:hover, :focus-visible) .text {
+    transform: none;
+  }
+}

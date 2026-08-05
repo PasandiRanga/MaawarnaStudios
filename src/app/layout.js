@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import SideRays from "@/components/SideRays";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -27,6 +28,20 @@ export default function RootLayout({ children }) {
       <body
         className={`${manrope.variable} ${syne.variable} antialiased min-h-screen bg-background text-foreground font-body`}
       >
+        {/* One light source for the whole site, fixed to the top-right corner
+            of the viewport so every page carries it and it holds while the
+            page scrolls. */}
+        <SideRays
+          className="side-rays-fixed"
+          rayColor1="#3b82f6"
+          rayColor2="#93c5fd"
+          intensity={1.4}
+          spread={1.6}
+          speed={1.6}
+          saturation={1.2}
+          falloff={1.4}
+          opacity={0.55}
+        />
         <SmoothScrolling>
           <Navigation />
           {children}

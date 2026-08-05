@@ -9,6 +9,7 @@ import {
   Cake, Clapperboard, Film, Mic, PenTool, Layers, Sparkles,
 } from 'lucide-react';
 import BorderGlow from '@/components/BorderGlow';
+import AnimatedButton from '@/components/AnimatedButton';
 import PhotoCollectionStack from '@/components/PhotoCollectionStack';
 import VideoGrid from '@/components/VideoGrid';
 import ImageGrid from '@/components/ImageGrid';
@@ -400,6 +401,11 @@ function PortfolioContent() {
                             video={s.video}
                             fit={s.fit}
                             icon={s.icon}
+                            /* Four across rather than three, so these cards are
+                               narrower than the category ones and the shared 4:5
+                               leaves them squat — a taller frame gives the
+                               artwork back the room the extra column took. */
+                            aspect="aspect-2/3"
                             action="View Work"
                             testId={`sub-tile-${s.id}`}
                             onClick={() => setActiveSub(s.id)}
@@ -477,18 +483,9 @@ function PortfolioContent() {
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-md mx-auto">
               Let&apos;s create something extraordinary together.
             </p>
-            <Link
-              href="/contact"
-              data-testid="portfolio-cta-button"
-              className="inline-flex items-center gap-2 px-10 py-4 font-bold text-sm uppercase tracking-[0.16em] group"
-              style={{
-                background: 'linear-gradient(135deg, #60a5fa, #3b82f6)',
-                color: '#fff',
-              }}
-            >
+            <AnimatedButton href="/contact" data-testid="portfolio-cta-button">
               Start Your Project
-              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+            </AnimatedButton>
           </motion.div>
         </div>
       </section>

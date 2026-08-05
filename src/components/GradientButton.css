@@ -1,0 +1,59 @@
+/* Sweeping-gradient CTA. The background is 280% wide so hovering can slide it
+   to a different part of the ramp — that slide is the whole effect, which is
+   why the transition sits on `background-position` and not on a colour.
+
+   Colours are the site's blues (#60a5fa → #3b82f6); the corners come from
+   --btn-radius so this and AnimatedButton stay the same shape. */
+.btn-gradient {
+  --btn-bg-1: hsl(213 94% 68%);  /* #60a5fa */
+  --btn-bg-2: hsl(217 91% 60%);  /* #3b82f6 */
+  --btn-fg: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--btn-radius);
+  color: var(--btn-fg);
+
+  background-size: 280% auto;
+  background-image: linear-gradient(
+    325deg,
+    var(--btn-bg-2) 0%,
+    var(--btn-bg-1) 55%,
+    var(--btn-bg-2) 90%
+  );
+  transition: background-position 0.8s ease, box-shadow 0.4s ease;
+
+  /* Outer glow reads as studio light on the near-black page; the two insets
+     give the face its lit-from-above bevel. */
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.45),
+    0 5px 5px -1px rgba(37, 99, 235, 0.25),
+    inset 4px 4px 8px rgba(147, 197, 253, 0.45),
+    inset -4px -4px 8px rgba(29, 78, 216, 0.35);
+}
+
+.btn-gradient:hover {
+  background-position: right top;
+}
+
+.btn-gradient:is(:focus-visible, :active) {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--btn-fg),
+    0 0 0 6px var(--btn-bg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-gradient {
+    transition: none;
+  }
+}

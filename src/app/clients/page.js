@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
 import { clients } from '@/data/clients';
+import AnimatedButton from '@/components/AnimatedButton';
 
 const ClientsPage = () => {
     useEffect(() => {
@@ -247,13 +248,9 @@ const ClientsPage = () => {
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground mb-12 max-w-2xl mx-auto">
                             Let&apos;s create something extraordinary together
                         </p>
-                        <a
-                            href="/contact"
-                            data-testid="clients-cta-button"
-                            className="inline-block bg-white text-black hover:bg-gray-200 rounded-none px-12 py-5 font-bold uppercase tracking-wider transition-all duration-300 text-lg"
-                        >
+                        <AnimatedButton href="/contact" data-testid="clients-cta-button">
                             Start Your Project
-                        </a>
+                        </AnimatedButton>
                     </motion.div>
                 </div>
             </section>
