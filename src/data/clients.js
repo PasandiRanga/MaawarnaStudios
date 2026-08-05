@@ -11,12 +11,18 @@
  * alone would make a wide lockup like AliiKai tower over a square mark; equal
  * area is what actually reads as "the same size" on a logo wall.
  *
+ * Keep these filenames URL-safe. A static import ships the name straight into
+ * the asset URL, and Vercel's edge decodes a `+` in the path as a space — the
+ * AliiKai logo was `Full Logo Orange+100.png` and 404'd in production while
+ * working locally, because `next dev` serves off the filesystem and never
+ * normalises the path.
+ *
  * `block` marks the four logos whose artwork is its own opaque colour square
  * (no transparency in the source). Those render with rounded corners so the
  * square reads as a deliberate tile rather than a hard-edged crop.
  */
 import Ashirwada from '@/assets/Clients/trimmed/Ashirwada .png';
-import AliiKai from '@/assets/Clients/trimmed/Full Logo Orange+100.png';
+import AliiKai from '@/assets/Clients/trimmed/aliikai.png';
 import PNutty from '@/assets/Clients/trimmed/P Nutty logo new.png';
 import SDFitness from '@/assets/Clients/trimmed/SD Fitness logo.jpg.jpg';
 import SamanthaMotors from '@/assets/Clients/trimmed/SmanthaMotors.png';

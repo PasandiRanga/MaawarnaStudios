@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Instagram, Facebook, Youtube, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react';
 import Logo from '@/assets/Logo.png';
 
 const BLUE       = '#3b82f6';
@@ -20,10 +20,8 @@ export const Footer = () => {
     'Post Production',
   ];
   const socials = [
-    { icon: Instagram, label: 'Instagram', href: '#' },
-    { icon: Facebook,  label: 'Facebook',  href: '#' },
-    { icon: Youtube,   label: 'YouTube',   href: '#' },
-    { icon: Linkedin,  label: 'LinkedIn',  href: '#' },
+    { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/maawarna_studios/' },
+    { icon: Facebook,  label: 'Facebook',  href: 'https://web.facebook.com/profile.php?id=61580942173756' },
   ];
 
   return (
@@ -59,6 +57,8 @@ export const Footer = () => {
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   data-testid={`footer-social-${label.toLowerCase()}`}
                   className="w-9 h-9 flex items-center justify-center border transition-all duration-300"
