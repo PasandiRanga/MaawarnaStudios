@@ -90,7 +90,7 @@ export const Navigation = () => {
           </div>
 
           {/* Desktop CTA */}
-          <Link
+          {/* <Link
             href="/contact"
             data-testid="nav-cta-button"
             className="hidden md:inline-block px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300"
@@ -105,7 +105,7 @@ export const Navigation = () => {
             }}
           >
             Work With Us
-          </Link>
+          </Link> */}
 
           {/* Mobile toggle */}
           <button
@@ -161,7 +161,7 @@ export const Navigation = () => {
                   </motion.div>
                 );
               })}
-              <Link
+              {/* <Link
                 href="/contact"
                 data-testid="mobile-cta-button"
                 onClick={() => setIsMobileOpen(false)}
@@ -172,7 +172,7 @@ export const Navigation = () => {
                 }}
               >
                 Work With Us
-              </Link>
+              </Link> */}
             </div>
           </motion.div>
         )}
