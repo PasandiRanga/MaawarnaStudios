@@ -1,0 +1,71 @@
+/* Text that hinges in like a sheet of paper unfolding: every piece starts
+   rotated ~92deg about one edge, then swings flat. The extra degrees past 90
+   mean the piece is briefly facing away from the viewer, so it reads as a fold
+   rather than a scale.
+
+   Nothing here sets font-size, weight or colour — those stay with whatever
+   element the animation is applied to (the site's headings carry Tailwind
+   classes and gradient text fills, and this must not fight them). */
+
+/* The plain-text copy screen readers get, since the visual layer is a pile of
+   per-word spans marked aria-hidden. */
+.fold-text-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Inline so the split pieces keep flowing and wrapping like normal text. */
+.fold-text-visual {
+  display: inline;
+}
+
+.fold-text-line {
+  display: block;
+}
+
+/* Character splitting would otherwise let a line break happen mid-word, since
+   every char becomes its own inline-block. Words stay atomic for wrapping. */
+.fold-text-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* pre-wrap, not &nbsp;: the space survives collapsing but the line may still
+   break there, which matters for headings that wrap on narrow screens. */
+.fold-text-whitespace {
+  white-space: pre-wrap;
+}
+
+/* Perspective lives on the wrapper rather than the whole heading so each piece
+   folds about its own vanishing point — a shared one would fan the outer
+   words off toward the edges. */
+.fold-text-segment {
+  display: inline-block;
+  perspective: var(--fold-perspective, 700px);
+}
+
+.fold-text-piece {
+  --fold-crease: 0;
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* The shadow in the crease. Tweened alongside the rotation so the piece darkens
+   while it is edge-on and clears as it lands flat. Bled slightly past the box
+   so ascenders and descenders are covered too. */
+.fold-text-piece::after {
+  content: '';
+  position: absolute;
+  inset: -0.08em -0.02em;
+  background: rgb(0 0 0 / var(--fold-crease));
+  pointer-events: none;
+}

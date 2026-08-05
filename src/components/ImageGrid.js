@@ -5,7 +5,9 @@
  * aspect ratio. Portrait, square and landscape all sit in the same set without
  * anything being cropped to fit: a card claims the shape of the file behind it,
  * and wide pieces take two columns so a landscape design isn't reduced to a
- * strip beside its portrait neighbours. Tapping a card opens it full-bleed.
+ * strip beside its portrait neighbours. Tapping a card opens it full-bleed, with
+ * the same zoom the photography sets get — a logo or a label is often the whole
+ * point of a piece, and at feed size there's no reading it.
  *
  * This is to the graphics sub-categories what VideoGrid is to the video ones and
  * PhotoCollectionStack is to the photo ones — it takes a set and an eyebrow and
@@ -19,6 +21,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Maximize2, X } from 'lucide-react';
 import { getLenis } from './SmoothScrolling';
+import ZoomableImage from './ZoomableImage';
 import './ImageGrid.css';
 
 const BLUE = '#3b82f6';
@@ -59,10 +62,10 @@ function Viewer({ pieces, index, eyebrow, onClose, onStep }) {
       transition={{ duration: 0.25 }}
       onClick={onClose}
       data-testid="image-viewer"
-      /* The picture is a grid item and comes after the controls in the DOM, so
-         without a stacking order of their own the arrows sit underneath it and
-         the picture eats the click. */
-      className="fixed inset-0 z-100 grid place-items-center px-14 py-4 md:px-24 md:py-10"
+      /* The picture comes after the controls in the DOM, so without a stacking
+         order of their own the arrows sit underneath it and the picture eats
+         the click. */
+      className="fixed inset-0 z-100"
       style={{ background: 'rgba(2,4,10,0.94)', backdropFilter: 'blur(6px)' }}
     >
       <button
@@ -73,46 +76,40 @@ function Viewer({ pieces, index, eyebrow, onClose, onStep }) {
         <X size={22} />
       </button>
 
+      {/* Halfway down, said out loud: the overlay used to centre its children
+          for them, and an arrow with nothing to say about the vertical sits at
+          the top of the screen instead. */}
       <button
         onClick={(e) => { e.stopPropagation(); onStep(-1); }}
         aria-label="Previous image"
-        className="absolute left-1 md:left-8 z-10 p-3 text-foreground/50 hover:text-foreground transition-colors duration-300"
+        className="absolute left-1 md:left-8 top-1/2 -translate-y-1/2 z-10 p-3 text-foreground/50 hover:text-foreground transition-colors duration-300"
       >
         <ArrowLeft size={22} />
       </button>
       <button
         onClick={(e) => { e.stopPropagation(); onStep(1); }}
         aria-label="Next image"
-        className="absolute right-1 md:right-8 z-10 p-3 text-foreground/50 hover:text-foreground transition-colors duration-300"
+        className="absolute right-1 md:right-8 top-1/2 -translate-y-1/2 z-10 p-3 text-foreground/50 hover:text-foreground transition-colors duration-300"
       >
         <ArrowRight size={22} />
       </button>
 
-      {/* Keyed on the source so stepping mounts a fresh element rather than
-          cross-fading the new file over the old one's frame. */}
-      <motion.div
-        key={piece.image.src}
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-        onClick={(e) => e.stopPropagation()}
-        className="relative flex max-h-full"
-      >
-        {/* Intrinsically sized rather than `fill`, so the element is the image's
-            own shape instead of a box the size of the overlay — see the note in
-            PhotoCollectionStack.js. `sizes` is capped rather than `100vw`
-            because unbounded the optimizer would be asked for a copy wider than
-            the master on a retina display. */}
-        <Image
-          src={piece.image}
+      {/* The room the piece and its zoom controls share, measured off the
+          overlay's edges: clear of the arrows either side, and clear of the
+          counter along the bottom. Keyed on the source so stepping mounts a
+          fresh element rather than cross-fading the new file over the old one's
+          frame — which also drops the next piece back to 100%, since the zoom
+          you were at on the last one says nothing about this one. */}
+      <div className="absolute inset-x-14 top-6 bottom-16 md:inset-x-24 md:top-10">
+        <ZoomableImage
+          key={piece.image.src}
+          image={piece.image}
           alt={piece.alt}
           sizes="(max-width: 1280px) 90vw, 1200px"
           quality={85}
-          priority
-          {...blurProps(piece.image)}
-          className="h-auto w-auto max-h-[80vh] max-w-full object-contain rounded-lg"
+          className="w-full h-full"
         />
-      </motion.div>
+      </div>
 
       <div className="absolute bottom-6 left-0 right-0 text-center pointer-events-none">
         <span className="text-[11px] font-bold uppercase tracking-[0.22em]" style={{ color: BLUE }}>

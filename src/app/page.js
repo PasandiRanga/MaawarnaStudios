@@ -10,6 +10,7 @@ import FeaturedVideo from '@/components/FeaturedVideo';
 import FeaturedSlideshow from '@/components/FeaturedSlideshow';
 import BorderGlow from '@/components/BorderGlow';
 import AnimatedButton from '@/components/AnimatedButton';
+import FoldHeading from '@/components/FoldHeading';
 import { clients } from '@/data/clients';
 import Logo from '@/assets/Logo.png';
 import ProductShot from '@/assets/Featured/SunCrush.jpeg';
@@ -144,7 +145,7 @@ export default function HomePage() {
                   Who We Are
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight leading-none mb-6">
+              <FoldHeading className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight leading-none mb-6">
                 Visual Storytellers<br />
                 <span style={{
                   background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
@@ -154,7 +155,7 @@ export default function HomePage() {
                 }}>
                   Brand Builders.
                 </span>
-              </h2>
+              </FoldHeading>
               <p className="text-base md:text-lg leading-relaxed text-foreground/55 mb-5">
                 Maawarna Studios is a premium creative production studio specializing in cinematic videography
                 and commercial photography. We transform brands through powerful visual narratives that
@@ -209,7 +210,7 @@ export default function HomePage() {
                   Portfolio
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Featured Work</h2>
+              <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight">Featured Work</FoldHeading>
             </div>
             <Link
               href="/portfolio"
@@ -294,7 +295,7 @@ export default function HomePage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Our Services</h2>
+            <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Our Services</FoldHeading>
             <p className="text-lg text-foreground/50 max-w-xl mx-auto font-light">
               Comprehensive creative production tailored to elevate your brand presence
             </p>
@@ -367,7 +368,7 @@ export default function HomePage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Our Clients</h2>
+            <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight">Our Clients</FoldHeading>
           </motion.div>
         </div>
 
@@ -421,7 +422,7 @@ export default function HomePage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[0.95] mb-6">
+            <FoldHeading className="text-4xl md:text-6xl xl:text-7xl font-bold tracking-tight leading-[0.95] mb-6">
               Ready to Create Something{' '}
               <span style={{
                 background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
@@ -431,7 +432,7 @@ export default function HomePage() {
               }}>
                 Extraordinary?
               </span>
-            </h2>
+            </FoldHeading>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
               Let&apos;s collaborate to bring your brand vision to life through cinematic storytelling.
             </p>

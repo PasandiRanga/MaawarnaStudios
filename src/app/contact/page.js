@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
+import FoldHeading from '@/components/FoldHeading';
 
 const BLUE = '#3b82f6';
 
@@ -22,7 +23,7 @@ const inputClass = `
 `;
 
 const contactInfo = [
-  { icon: Mail,   label: 'Email',  value: 'manuchandrasekare@gmail.com', link: 'mailto:manuchandrasekare@gmail.com' },
+  { icon: Mail,   label: 'Email',  value: 'maawarnastudios@gmail.com', link: 'mailto:maawarnastudios@gmail.com' },
   { icon: Phone,  label: 'Phone',  value: '+94 70 172 2051',             link: 'tel:+94701722051' },
   { icon: MapPin, label: 'Studio', value: '36, Galhena Road, Nugegoda, Sri Lanka',
     link: 'https://www.google.com/maps/search/?api=1&query=36,+Galhena+Road,+Nugegoda,+Sri+Lanka' },
@@ -95,7 +96,8 @@ export default function ContactPage() {
                 Get In Touch
               </span>
             </div>
-            <h1
+            <FoldHeading
+              as="h1"
               className="text-5xl md:text-7xl xl:text-8xl font-bold tracking-tighter leading-[0.9] mb-8"
               data-testid="contact-title"
             >
@@ -109,7 +111,7 @@ export default function ContactPage() {
                 Something
               </span>
               <br />Extraordinary.
-            </h1>
+            </FoldHeading>
             <p className="text-lg md:text-xl text-foreground/45 font-light leading-relaxed max-w-2xl">
               Ready to elevate your brand with cinematic storytelling? We&apos;d love to hear
               about your project and discuss how we can bring your vision to life.
@@ -348,7 +350,7 @@ export default function ContactPage() {
                 Find Us
               </span>
             </div>
-            <h2 className="text-3xl font-bold">Our Studio</h2>
+            <FoldHeading className="text-3xl font-bold">Our Studio</FoldHeading>
           </motion.div>
 
           <motion.div

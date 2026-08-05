@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import { ArrowDown } from 'lucide-react';
 import GradientButton from './GradientButton';
 import AnimatedButton from './AnimatedButton';
+import FoldHeading from './FoldHeading';
 
 /*
  * Apple-style pinned handoff.
@@ -234,7 +235,8 @@ export default function VideoHero() {
             <div className="w-8 h-px" style={{ background: 'rgba(96,165,250,0.55)' }} />
           </div>
 
-          <h1
+          <FoldHeading
+            as="h1"
             className="text-[clamp(2rem,8vw,3.25rem)] md:text-[clamp(2.5rem,5vw,4.2rem)] font-bold tracking-tighter leading-[0.95] mb-5"
             style={{ fontFamily: 'var(--font-syne)' }}
           >
@@ -250,7 +252,7 @@ export default function VideoHero() {
               That Build
             </span>
             <span className="text-foreground"> Brands.</span>
-          </h1>
+          </FoldHeading>
 
           <p className="text-sm md:text-base text-foreground/45 font-light leading-relaxed mb-8 max-w-lg mx-auto">
             Cinematic videography &amp; photography for product marketing,
