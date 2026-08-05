@@ -12,7 +12,7 @@ const BLUE = '#3b82f6';
 
 const navLinks = [
   { name: 'Home',      path: '/' },
-  { name: 'About',     path: '/about' },
+  { name: 'About Us',     path: '/about' },
   { name: 'Portfolio', path: '/portfolio' },
   { name: 'Packages',  path: '/packages' },
   /* Clients page is still being built out — restore this when it ships. */

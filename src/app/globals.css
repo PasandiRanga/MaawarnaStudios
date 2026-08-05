@@ -63,6 +63,11 @@
     --input: 220 20% 80%;
     --ring: 217 91% 60%;
     --radius: 0rem;
+
+    /* CTAs are the one place that softens off the site's square --radius, and
+       they all soften by the same amount — GradientButton and AnimatedButton
+       sit side by side in the hero, so this lives here rather than twice. */
+    --btn-radius: 0.75rem;
   }
 
   .dark {
@@ -193,7 +198,10 @@
   100% { transform: translateX(-50%); }
 }
 .marquee-track {
-  animation: marquee 25s linear infinite;
+  /* Duration is tuned to the track's width — the keyframe travels a fixed 50%,
+     so a wider rail covers more pixels in the same time. Retune if the logo
+     boxes are resized. */
+  animation: marquee 40s linear infinite;
 }
 .marquee-track:hover {
   animation-play-state: paused;

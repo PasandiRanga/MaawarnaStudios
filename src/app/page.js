@@ -8,6 +8,8 @@ import { Video, Camera, Palette, ArrowRight } from 'lucide-react';
 import VideoHero from '@/components/VideoHero';
 import FeaturedVideo from '@/components/FeaturedVideo';
 import FeaturedSlideshow from '@/components/FeaturedSlideshow';
+import BorderGlow from '@/components/BorderGlow';
+import AnimatedButton from '@/components/AnimatedButton';
 import { clients } from '@/data/clients';
 import Logo from '@/assets/Logo.png';
 import ProductShot from '@/assets/Featured/SunCrush.jpeg';
@@ -26,6 +28,24 @@ const fadeUp = {
 
 const BLUE       = '#3b82f6';
 const BLUE_LIGHT = '#60a5fa';
+
+/* Same glow the pricing cards use, so every card on the site reads as one set.
+   `backgroundColor` is deliberately NOT in here: the mesh border paints against
+   the card's own background, so each caller passes the colour of the section it
+   sits in — the featured band is raised, the services section is not. */
+const GLOW = {
+  glowColor: '217 91 60',
+  colors: ['#93c5fd', '#3b82f6', '#60a5fa'],
+  edgeSensitivity: 15,
+  borderRadius: 22,
+  glowRadius: 40,
+  glowIntensity: 1.3,
+  coneSpread: 25,
+};
+
+/* Section backgrounds the glow cards paint against. */
+const BAND_BG = 'hsl(220 25% 6%)'; /* featured work + its section */
+const PAGE_BG = 'hsl(220 30% 4%)'; /* bare page, behind services */
 
 /* One vertical rhythm for the whole page — every section breathes the same.
    Kept as a literal so Tailwind still sees the class names when it scans. */
@@ -167,17 +187,13 @@ export default function HomePage() {
                 alt="Maawarna Studios"
                 className="w-full h-full object-contain"
               />
-              <div className="absolute top-4 left-4 w-16 h-16 pointer-events-none"
-                style={{ border: `1.5px solid ${BLUE}`, opacity: 0.4 }} />
-              <div className="absolute bottom-4 right-4 w-16 h-16 pointer-events-none"
-                style={{ border: `1.5px solid ${BLUE}`, opacity: 0.4 }} />
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* ── Featured Works ── */}
-      <section className={SECTION_PAD} style={{ background: 'hsl(220 25% 6%)' }}>
+      <section className={SECTION_PAD} style={{ background: BAND_BG }}>
         <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24">
           <motion.div
             variants={fadeUp}
@@ -216,40 +232,45 @@ export default function HomePage() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                className="group relative aspect-3/4 overflow-hidden cursor-pointer"
               >
-                {work.video ? (
-                  <FeaturedVideo
-                    src={work.video}
-                    title={work.title}
-                    className="transition-transform duration-700 group-hover:scale-106"
-                  />
-                ) : work.slides ? (
-                  <FeaturedSlideshow
-                    slides={work.slides}
-                    title={work.title}
-                    className="transition-transform duration-700 group-hover:scale-106"
-                  />
-                ) : (
-                  <img
-                    src={work.image}
-                    alt={work.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-106"
-                  />
-                )}
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                  style={{ background: BLUE }}
-                />
-                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
-                  <h3 className="text-lg font-bold leading-tight">{work.title}</h3>
-                </div>
-                <Link
-                  href={`/portfolio?category=${work.portfolioCategory}${work.portfolioType ? `&type=${work.portfolioType}` : ''}`}
-                  aria-label={`View ${work.title} on the portfolio page`}
-                  className="absolute inset-0 z-10"
-                />
+                <BorderGlow
+                  {...GLOW}
+                  backgroundColor={BAND_BG}
+                  className="group cursor-pointer"
+                >
+                  {/* Rounded a hair inside the ring so the artwork stops at the
+                      curve and leaves the border itself visible. */}
+                  <div className="relative aspect-3/4 rounded-[21px] overflow-hidden">
+                    {work.video ? (
+                      <FeaturedVideo
+                        src={work.video}
+                        title={work.title}
+                        className="transition-transform duration-700 group-hover:scale-106"
+                      />
+                    ) : work.slides ? (
+                      <FeaturedSlideshow
+                        slides={work.slides}
+                        title={work.title}
+                        className="transition-transform duration-700 group-hover:scale-106"
+                      />
+                    ) : (
+                      <img
+                        src={work.image}
+                        alt={work.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-106"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
+                      <h3 className="text-lg font-bold leading-tight">{work.title}</h3>
+                    </div>
+                    <Link
+                      href={`/portfolio?category=${work.portfolioCategory}${work.portfolioType ? `&type=${work.portfolioType}` : ''}`}
+                      aria-label={`View ${work.title} on the portfolio page`}
+                      className="absolute inset-0 z-10"
+                    />
+                  </div>
+                </BorderGlow>
               </motion.div>
             ))}
           </div>
@@ -290,31 +311,36 @@ export default function HomePage() {
                   initial="hidden"
                   whileInView="show"
                   viewport={{ once: true }}
-                  className="relative group p-8 border transition-all duration-500 cursor-default"
-                  style={{ borderColor: 'hsl(220 25% 14%)' }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(59,130,246,0.35)'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = 'hsl(220 25% 14%)'}
+                  className="h-full"
                 >
-                  {svc.tag && (
-                    <div
-                      className="absolute top-0 right-0 text-[10px] font-bold uppercase tracking-wider px-3 py-1"
-                      style={{ background: BLUE, color: '#fff' }}
-                    >
-                      {svc.tag}
-                    </div>
-                  )}
-                  <div
-                    className="w-12 h-12 flex items-center justify-center mb-6"
-                    style={{ border: '1px solid rgba(59,130,246,0.2)' }}
+                  {/* Settings match the packages cards exactly — same ring, same
+                      lift — so a visitor moving between the pages sees one card. */}
+                  <BorderGlow
+                    {...GLOW}
+                    backgroundColor={PAGE_BG}
+                    className="h-full cursor-default transition-transform duration-500 ease-out hover:-translate-y-2"
                   >
-                    <Icon size={22} style={{ color: BLUE }} />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{svc.title}</h3>
-                  <p className="text-sm leading-relaxed text-foreground/50">{svc.desc}</p>
-                  <div
-                    className="absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-500"
-                    style={{ background: BLUE }}
-                  />
+                    {/* Clipped to just inside the ring so the corner tag follows
+                        the radius instead of poking past it. */}
+                    <div className="relative flex flex-col h-full p-8 rounded-[21px] overflow-hidden">
+                      {svc.tag && (
+                        <div
+                          className="absolute top-0 right-0 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg"
+                          style={{ background: BLUE, color: '#fff' }}
+                        >
+                          {svc.tag}
+                        </div>
+                      )}
+                      <div
+                        className="w-12 h-12 flex items-center justify-center mb-6"
+                        style={{ border: '1px solid rgba(59,130,246,0.2)' }}
+                      >
+                        <Icon size={22} style={{ color: BLUE }} />
+                      </div>
+                      <h3 className="text-xl font-bold mb-3">{svc.title}</h3>
+                      <p className="text-sm leading-relaxed text-foreground/50">{svc.desc}</p>
+                    </div>
+                  </BorderGlow>
                 </motion.div>
               );
             })}
@@ -323,8 +349,10 @@ export default function HomePage() {
       </section>
 
       {/* ── Clients Marquee ── */}
-      <section className={`${SECTION_PAD} overflow-hidden border-y`} style={{ borderColor: 'hsl(220 25% 10%)' }}>
-        <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24 mb-8">
+      {/* Deliberately taller than SECTION_PAD — the rail is the one section that
+          reads as a full band, so it gets its own breathing room. */}
+      <section className="py-16 md:py-24 overflow-hidden border-y" style={{ borderColor: 'hsl(220 25% 10%)' }}>
+        <div className="container mx-auto max-w-7xl px-6 md:px-12 lg:px-24 mb-12">
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -339,7 +367,7 @@ export default function HomePage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Our Clients</h2>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Our Clients</h2>
           </motion.div>
         </div>
 
@@ -354,14 +382,14 @@ export default function HomePage() {
         >
           {/* The list is rendered twice — the keyframe scrolls exactly one copy
               width, so the seam lands back on an identical frame. */}
-          <div className="marquee-track flex gap-10 md:gap-16 items-center" style={{ width: 'max-content' }}>
+          <div className="marquee-track flex gap-14 md:gap-20 items-center" style={{ width: 'max-content' }}>
             {[...clients, ...clients].map((client, i) => (
               /* Fixed box, no tile behind it — the box only keeps the rhythm
                  even between a wide lockup and a square mark. The logo is sized
                  by `scale` rather than filling the box, so all read equally. */
               <div
                 key={i}
-                className="shrink-0 h-16 w-32 md:h-20 md:w-40 flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity duration-300"
+                className="shrink-0 h-24 w-48 md:h-32 md:w-64 flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity duration-300"
               >
                 <img
                   src={client.logo}
@@ -407,19 +435,7 @@ export default function HomePage() {
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
               Let&apos;s collaborate to bring your brand vision to life through cinematic storytelling.
             </p>
-            <Link
-              href="/contact"
-              className="inline-block px-12 py-5 font-bold uppercase tracking-[0.16em] text-sm transition-all duration-300 group"
-              style={{
-                background: 'linear-gradient(135deg, #60a5fa, #3b82f6)',
-                color: '#fff',
-              }}
-            >
-              <span className="flex items-center gap-2">
-                Work With Us
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-            </Link>
+            <AnimatedButton href="/contact">Work With Us</AnimatedButton>
           </motion.div>
         </div>
       </section>
