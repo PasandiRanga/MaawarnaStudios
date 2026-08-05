@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import BorderGlow from '@/components/BorderGlow';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -16,6 +17,15 @@ const fadeUp = {
 
 const BLUE       = '#3b82f6';
 const BLUE_LIGHT = '#60a5fa';
+
+/* Same palette the portfolio tiles glow with, so the pricing cards read as part
+   of the same set. The background has to match the section behind them — the
+   mesh border paints against it. */
+const GLOW = {
+  glowColor: '217 91 60',
+  colors: ['#93c5fd', '#3b82f6', '#60a5fa'],
+  backgroundColor: 'hsl(220 25% 6%)',
+};
 
 const packages = [
   {
@@ -73,13 +83,14 @@ export default function PackagesPage() {
             variants={fadeUp}
             initial="hidden"
             animate="show"
-            className="max-w-4xl"
+            className="max-w-4xl mx-auto text-center"
           >
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center justify-center gap-3 mb-5">
               <div className="w-6 h-px" style={{ background: BLUE }} />
               <span className="text-xs tracking-[0.28em] uppercase font-medium" style={{ color: BLUE }}>
                 Pricing
               </span>
+              <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-none mb-6">
               Packages &{' '}
@@ -92,7 +103,7 @@ export default function PackagesPage() {
                 Pricing
               </span>
             </h1>
-            <p className="text-lg md:text-xl font-light text-foreground/50 max-w-2xl">
+            <p className="text-lg md:text-xl font-light text-foreground/50 max-w-2xl mx-auto">
               Transparent, flexible pricing to fit every stage of your brand journey.
             </p>
           </motion.div>
@@ -111,58 +122,73 @@ export default function PackagesPage() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                className="relative p-8 md:p-10 flex flex-col border transition-all duration-500"
-                style={{
-                  borderColor: pkg.highlight ? 'rgba(59,130,246,0.45)' : 'hsl(220 25% 14%)',
-                  background: pkg.highlight ? 'rgba(59,130,246,0.04)' : 'transparent',
-                }}
+                className="h-full"
               >
-                {pkg.badge && (
-                  <div
-                    className="absolute top-0 right-0 text-[10px] font-bold uppercase tracking-wider px-3 py-1"
-                    style={{ background: BLUE, color: '#fff' }}
-                  >
-                    {pkg.badge}
-                  </div>
-                )}
-                <div className="mb-7">
-                  <h3 className="text-2xl font-bold mb-1">{pkg.name}</h3>
-                  <p className="text-xs text-foreground/40 uppercase tracking-wider mb-5">{pkg.tagline}</p>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold">{pkg.price}</span>
-                    <span className="text-foreground/40 text-sm">{pkg.period}</span>
-                  </div>
-                </div>
-                <ul className="space-y-3 grow">
-                  {pkg.features.map((f, fi) => (
-                    <li key={fi} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} style={{ color: BLUE, opacity: 0.8 }} className="shrink-0 mt-0.5" />
-                      <span className="text-sm text-foreground/60">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/contact"
-                  className="mt-8 block text-center py-3.5 text-sm font-bold uppercase tracking-[0.14em] transition-all duration-300"
-                  style={pkg.highlight
-                    ? { background: BLUE, color: '#fff' }
-                    : { border: `1px solid rgba(59,130,246,0.3)`, color: BLUE_LIGHT }
-                  }
-                  onMouseEnter={e => {
-                    if (!pkg.highlight) {
-                      e.currentTarget.style.background = 'rgba(59,130,246,0.08)';
-                      e.currentTarget.style.borderColor = 'rgba(59,130,246,0.6)';
-                    }
-                  }}
-                  onMouseLeave={e => {
-                    if (!pkg.highlight) {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)';
-                    }
-                  }}
+                <BorderGlow
+                  {...GLOW}
+                  className={`h-full transition-transform duration-500 ease-out hover:-translate-y-2 ${
+                    pkg.highlight ? 'border-[rgba(59,130,246,0.45)]!' : ''
+                  }`}
+                  edgeSensitivity={15}
+                  borderRadius={22}
+                  glowRadius={40}
+                  glowIntensity={1.3}
+                  coneSpread={25}
                 >
-                  Get Started
-                </Link>
+                  {/* Rounded and clipped so the corner badge follows the card's
+                      radius instead of poking past the glow ring. */}
+                  <div
+                    className="relative flex flex-col h-full p-8 md:p-10 rounded-[21px] overflow-hidden"
+                    style={{ background: pkg.highlight ? 'rgba(59,130,246,0.04)' : 'transparent' }}
+                  >
+                    {pkg.badge && (
+                      <div
+                        className="absolute top-0 right-0 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg"
+                        style={{ background: BLUE, color: '#fff' }}
+                      >
+                        {pkg.badge}
+                      </div>
+                    )}
+                    <div className="mb-7">
+                      <h3 className="text-2xl font-bold mb-1">{pkg.name}</h3>
+                      <p className="text-xs text-foreground/40 uppercase tracking-wider mb-5">{pkg.tagline}</p>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-4xl font-bold">{pkg.price}</span>
+                        <span className="text-foreground/40 text-sm">{pkg.period}</span>
+                      </div>
+                    </div>
+                    <ul className="space-y-3 grow">
+                      {pkg.features.map((f, fi) => (
+                        <li key={fi} className="flex items-start gap-3">
+                          <CheckCircle2 size={16} style={{ color: BLUE, opacity: 0.8 }} className="shrink-0 mt-0.5" />
+                          <span className="text-sm text-foreground/60">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      href="/contact"
+                      className="mt-8 block text-center py-3.5 text-sm font-bold uppercase tracking-[0.14em] transition-all duration-300"
+                      style={pkg.highlight
+                        ? { background: BLUE, color: '#fff' }
+                        : { border: `1px solid rgba(59,130,246,0.3)`, color: BLUE_LIGHT }
+                      }
+                      onMouseEnter={e => {
+                        if (!pkg.highlight) {
+                          e.currentTarget.style.background = 'rgba(59,130,246,0.08)';
+                          e.currentTarget.style.borderColor = 'rgba(59,130,246,0.6)';
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (!pkg.highlight) {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)';
+                        }
+                      }}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                </BorderGlow>
               </motion.div>
             ))}
           </div>
@@ -176,19 +202,24 @@ export default function PackagesPage() {
             className="max-w-4xl mx-auto"
           >
             <h3 className="text-center text-xl font-bold mb-6 text-foreground/70">Available Add-Ons</h3>
-            <div className="border p-6 md:p-8" style={{ borderColor: 'hsl(220 25% 14%)' }}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3">
-                {addOns.map((addon) => (
-                  <div
-                    key={addon.name}
-                    className="flex justify-between items-center py-2.5 border-b"
-                    style={{ borderColor: 'hsl(220 25% 10%)' }}
-                  >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {addOns.map((addon) => (
+                <BorderGlow
+                  key={addon.name}
+                  {...GLOW}
+                  className="h-full transition-transform duration-500 ease-out hover:-translate-y-1"
+                  edgeSensitivity={15}
+                  borderRadius={14}
+                  glowRadius={30}
+                  glowIntensity={1.3}
+                  coneSpread={25}
+                >
+                  <div className="flex justify-between items-center gap-4 h-full px-5 py-4">
                     <span className="text-sm text-foreground/65">{addon.name}</span>
                     <span className="text-sm font-semibold" style={{ color: BLUE_LIGHT }}>{addon.price}</span>
                   </div>
-                ))}
-              </div>
+                </BorderGlow>
+              ))}
             </div>
           </motion.div>
         </div>
