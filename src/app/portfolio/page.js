@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import BorderGlow from '@/components/BorderGlow';
 import AnimatedButton from '@/components/AnimatedButton';
+import FoldHeading from '@/components/FoldHeading';
 import PhotoCollectionStack from '@/components/PhotoCollectionStack';
 import VideoGrid from '@/components/VideoGrid';
 import ImageGrid from '@/components/ImageGrid';
@@ -321,12 +322,13 @@ function PortfolioContent() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h1
+            <FoldHeading
+              as="h1"
               className="text-5xl md:text-7xl xl:text-8xl font-bold tracking-tighter leading-[0.9] mb-8"
               data-testid="portfolio-title"
             >
               Portfolio
-            </h1>
+            </FoldHeading>
             <p className="text-lg md:text-xl text-foreground/45 font-light leading-relaxed max-w-2xl mx-auto">
               Explore our collection of cinematic productions, stunning photography, and creative
               campaigns that help brands tell their most compelling stories.
@@ -469,7 +471,7 @@ function PortfolioContent() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               Like What You{' '}
               <span style={{
                 background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
@@ -479,7 +481,7 @@ function PortfolioContent() {
               }}>
                 See?
               </span>
-            </h2>
+            </FoldHeading>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-md mx-auto">
               Let&apos;s create something extraordinary together.
             </p>

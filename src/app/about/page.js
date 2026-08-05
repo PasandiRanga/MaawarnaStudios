@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Aperture, Clapperboard, Layers, Zap } from 'lucide-react';
 import AnimatedButton from '@/components/AnimatedButton';
+import FoldHeading from '@/components/FoldHeading';
 
 const BLUE = '#3b82f6';
 
@@ -76,7 +77,8 @@ export default function AboutPage() {
                   About Us
                 </span>
               </div>
-              <h1
+              <FoldHeading
+                as="h1"
                 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tighter leading-[0.9] mb-8"
                 data-testid="about-title"
               >
@@ -90,7 +92,7 @@ export default function AboutPage() {
                   Visual
                 </span>
                 <br />Storytellers.
-              </h1>
+              </FoldHeading>
               <p className="text-lg md:text-xl text-foreground/50 font-light leading-relaxed max-w-2xl">
                 Maawarna Studios was founded on a simple belief, great stories have the power to
                 transform brands. We combine cinematic artistry with strategic thinking to create
@@ -136,9 +138,9 @@ export default function AboutPage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Passion Meets<br />Precision.
-            </h2>
+            </FoldHeading>
             <p className="text-base md:text-lg leading-relaxed text-foreground/50 mb-5">
               Founded by Mr.Janidu Chandrasekara, a creative director and enthusiast in cinematography with a background in cinematography and business entrepreneurship to help brands to emerge. 
             </p>
@@ -173,9 +175,9 @@ export default function AboutPage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-6">
+            <FoldHeading className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-6">
               Crafting Visual Excellence
-            </h2>
+            </FoldHeading>
             <p className="text-xl text-foreground/45 font-light leading-relaxed">
               To empower brands with cinematic storytelling that transcends traditional advertising,
               creating emotional connections that drive meaningful engagement and lasting impact.
@@ -194,7 +196,7 @@ export default function AboutPage() {
                 What Drives Us
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Our Values</h2>
+            <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight">Our Values</FoldHeading>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -238,9 +240,9 @@ export default function AboutPage() {
                   Why Choose Us
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-10">
+              <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight mb-10">
                 What Makes<br />Maawarna Studios Perfect.
-              </h2>
+              </FoldHeading>
               <div className="space-y-7">
                 {differentiators.map((d, i) => (
                   <motion.div
@@ -290,7 +292,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+            <FoldHeading className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               Ready to{' '}
               <span style={{
                 background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
@@ -300,7 +302,7 @@ export default function AboutPage() {
               }}>
                 Collaborate?
               </span>
-            </h2>
+            </FoldHeading>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
               Let&apos;s bring your brand vision to life with cinematic storytelling.
             </p>

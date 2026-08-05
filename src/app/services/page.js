@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, CheckCircle2 } from 'lucide-react';
 import AnimatedButton from '@/components/AnimatedButton';
+import FoldHeading from '@/components/FoldHeading';
 
 const ServicesPage = () => {
     useEffect(() => {
@@ -66,9 +67,9 @@ const ServicesPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
                             What We Offer
                         </p>
-                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8" data-testid="services-title">
+                        <FoldHeading as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8" data-testid="services-title">
                             Comprehensive Creative Services
-                        </h1>
+                        </FoldHeading>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground">
                             From concept to delivery, we provide end-to-end creative production services that elevate your brand and captivate your audience.
                         </p>
@@ -158,7 +159,7 @@ const ServicesPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
                             How We Work
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Our Process</h2>
+                        <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Our Process</FoldHeading>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground max-w-3xl mx-auto">
                             A streamlined approach that delivers exceptional results
                         </p>
@@ -202,7 +203,7 @@ const ServicesPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4 text-center">
                             Why Choose Maawarna
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-12 text-center">The Maawarna Advantage</h2>
+                        <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight mb-12 text-center">The Maawarna Advantage</FoldHeading>
 
                         <div className="space-y-8">
                             {[
@@ -251,9 +252,9 @@ const ServicesPage = () => {
                         viewport={{ once: true }}
                         className="text-center"
                     >
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+                        <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
                             Ready to Elevate Your Brand?
-                        </h2>
+                        </FoldHeading>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground mb-12 max-w-2xl mx-auto">
                             Let&apos;s discuss how our services can help you achieve your creative goals
                         </p>

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import BorderGlow from '@/components/BorderGlow';
 import AnimatedButton from '@/components/AnimatedButton';
+import FoldHeading from '@/components/FoldHeading';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -92,7 +93,7 @@ export default function PackagesPage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-none mb-6">
+            <FoldHeading as="h1" className="text-4xl md:text-6xl font-bold tracking-tight leading-none mb-6">
               Packages &{' '}
               <span style={{
                 background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
@@ -102,7 +103,7 @@ export default function PackagesPage() {
               }}>
                 Pricing
               </span>
-            </h1>
+            </FoldHeading>
             <p className="text-lg md:text-xl font-light text-foreground/50 max-w-2xl mx-auto">
               Transparent, flexible pricing to fit every stage of your brand journey.
             </p>
@@ -223,7 +224,7 @@ export default function PackagesPage() {
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[0.95] mb-6">
+            <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight leading-[0.95] mb-6">
               Not Sure Which Package{' '}
               <span style={{
                 background: 'linear-gradient(135deg, #93c5fd, #3b82f6)',
@@ -233,7 +234,7 @@ export default function PackagesPage() {
               }}>
                 Fits?
               </span>
-            </h2>
+            </FoldHeading>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
               Reach out and we&apos;ll help you find the right solution for your brand and budget.
             </p>

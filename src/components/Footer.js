@@ -124,7 +124,7 @@ export const Footer = () => {
             </h4>
             <div className="space-y-4">
               <a
-                href="mailto:manuchandrasekare@gmail.com"
+                href="mailto:maawarnastudios@gmail.com"
                 data-testid="footer-email"
                 className="flex items-start gap-3 text-sm group"
                 style={{ color: 'rgba(235,242,255,0.4)' }}
@@ -132,7 +132,7 @@ export const Footer = () => {
                 onMouseLeave={e => e.currentTarget.style.color = 'rgba(235,242,255,0.4)'}
               >
                 <Mail size={14} className="mt-0.5 shrink-0" style={{ color: BLUE, opacity: 0.6 }} />
-                manuchandrasekare@gmail.com
+                maawarnastudios@gmail.com
               </a>
               <a
                 href="tel:+94701722051"

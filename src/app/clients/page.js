@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
 import { clients } from '@/data/clients';
 import AnimatedButton from '@/components/AnimatedButton';
+import FoldHeading from '@/components/FoldHeading';
 
 const ClientsPage = () => {
     useEffect(() => {
@@ -83,7 +84,7 @@ const ClientsPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
                             Brand Collaborations
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">We&apos;ve Worked With</h2>
+                        <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight">We&apos;ve Worked With</FoldHeading>
                     </motion.div>
 
                     <motion.div
@@ -124,9 +125,9 @@ const ClientsPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
                             Testimonials
                         </p>
-                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8" data-testid="clients-title">
+                        <FoldHeading as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8" data-testid="clients-title">
                             What Our Clients Say
-                        </h1>
+                        </FoldHeading>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground">
                             Don&apos;t just take our word for it. Hear from the brands and businesses we&apos;ve helped elevate through cinematic storytelling.
                         </p>
@@ -198,7 +199,7 @@ const ClientsPage = () => {
                         <p className="text-sm font-medium tracking-widest uppercase text-muted-foreground/60 mb-4">
                             By The Numbers
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight">Trusted By Industry Leaders</h2>
+                        <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight">Trusted By Industry Leaders</FoldHeading>
                     </motion.div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -240,11 +241,11 @@ const ClientsPage = () => {
                         viewport={{ once: true }}
                         className="text-center"
                     >
-                        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+                        <FoldHeading className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
                             Join Our Growing
                             <br />
                             List of Success Stories
-                        </h2>
+                        </FoldHeading>
                         <p className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground mb-12 max-w-2xl mx-auto">
                             Let&apos;s create something extraordinary together
                         </p>
