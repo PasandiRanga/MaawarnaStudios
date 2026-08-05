@@ -207,7 +207,7 @@ export default function PackagesPage() {
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-6 h-px" style={{ background: BLUE }} />
               <span className="text-xs tracking-[0.28em] uppercase font-medium" style={{ color: BLUE }}>
-                Let's Work Together
+                Let&apos;s Work Together
               </span>
               <div className="w-6 h-px" style={{ background: BLUE }} />
             </div>
@@ -223,7 +223,7 @@ export default function PackagesPage() {
               </span>
             </h2>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
-              Reach out and we'll help you find the right solution for your brand and budget.
+              Reach out and we&apos;ll help you find the right solution for your brand and budget.
             </p>
             <Link
               href="/contact"

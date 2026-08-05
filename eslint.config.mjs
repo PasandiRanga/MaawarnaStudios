@@ -5,6 +5,11 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  /* Flat config only ignores node_modules by default, so build output would
+     otherwise be linted — the emitted webpack chunks trip no-assign-module-variable. */
+  {
+    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts"],
+  },
   ...compat.extends("next/core-web-vitals"),
 ];
 

@@ -95,7 +95,7 @@ export default function AboutPage() {
               <p className="text-lg md:text-xl text-foreground/50 font-light leading-relaxed max-w-2xl">
                 Maawarna Studios was founded on a simple belief, great stories have the power to
                 transform brands. We combine cinematic artistry with strategic thinking to create
-                content that doesn't just look beautiful, it drives results.
+                content that doesn&apos;t just look beautiful, it drives results.
               </p>
             </motion.div>
 
@@ -314,7 +314,7 @@ export default function AboutPage() {
               </span>
             </h2>
             <p className="text-lg text-foreground/45 font-light mb-10 max-w-lg mx-auto">
-              Let's bring your brand vision to life with cinematic storytelling.
+              Let&apos;s bring your brand vision to life with cinematic storytelling.
             </p>
             <Link
               href="/contact"

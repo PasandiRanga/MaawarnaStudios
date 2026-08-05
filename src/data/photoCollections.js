@@ -42,10 +42,10 @@ export function buildCollections(files, { names = {}, order = [], subject }) {
     if (parts.length !== 3) continue;
 
     const folder = parts[1];
-    const module = files(key);
+    const mod = files(key);
 
     if (!grouped.has(folder)) grouped.set(folder, []);
-    grouped.get(folder).push(module.default ?? module);
+    grouped.get(folder).push(mod.default ?? mod);
   }
 
   const rank = (folder) => {
