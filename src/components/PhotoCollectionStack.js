@@ -9,6 +9,10 @@
  * the frame you tapped, and tapping the open frame lifts it out on its own to be
  * looked at properly. Escape walks back up a level at a time.
  *
+ * The middle depth changes shape on a phone: an accordion fans a set out across
+ * width, which a phone hasn't got, so there it becomes a depth carousel you
+ * swipe through instead. Same set, same place in it, same way out.
+ *
  * Product photography groups by brand, graduation photography by album; the only
  * thing that changes between them is the collections passed in and the eyebrow
  * over each card.
@@ -19,6 +23,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import AccordionGallery from './AccordionGallery';
+import DepthCarousel from './DepthCarousel';
 import PhotoZoom from './PhotoZoom';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import { getLenis } from './SmoothScrolling';
@@ -54,6 +59,28 @@ function mosaic(count, heroPortrait) {
     : { cols, rows: 2, colSpan: 2, rowSpan: 1 };
 }
 
+/* Which of the two galleries the overlay opens with. It matches the width the
+   accordion gives up at, so the carousel takes over exactly where the fan stops
+   fitting. Read before the first paint rather than after one: the overlay is
+   only ever mounted by a tap, so there's no server render to disagree with, and
+   opening on the wrong gallery for a frame is a visible swap. */
+function useNarrow(maxWidth = 640) {
+  const query = `(max-width: ${maxWidth}px)`;
+  const [narrow, setNarrow] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const sync = () => setNarrow(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, [query]);
+
+  return narrow;
+}
+
 /* Which set you're in and how far through it — the same line at both depths, so
    lifting a frame out doesn't lose your place in the collection. */
 function Caption({ collection, index }) {
@@ -69,14 +96,23 @@ function Caption({ collection, index }) {
   );
 }
 
-/* Opening a frame opens the set it belongs to. The tapped frame is the one
-   standing open, and its neighbours stay on screen as slivers you can walk
-   through — so a collection is browsed in place rather than one photo at a
-   time behind a pair of arrows. */
+/* Opening a frame opens the set it belongs to. The tapped frame is the one you
+   land on and the rest of the collection stays with it — slivers either side on
+   a wide screen, ranks behind on a phone — so a set is browsed in place rather
+   than one photo at a time behind a pair of arrows. */
 function CollectionViewer({ collection, index, onClose }) {
   const [current, setCurrent] = useState(index);
-  /* The frame lifted out on its own, if any. Null is the accordion. */
+  /* The frame lifted out on its own, if any. Null is the gallery below. */
   const [zoomed, setZoomed] = useState(null);
+  const narrow = useNarrow();
+
+  /* Both galleries take the same set — which one is on screen is only a question
+     of how much room there is to lay it out in. */
+  const items = collection.images.map((photo) => ({
+    image: photo.image,
+    alt: photo.alt,
+    label: collection.title,
+  }));
 
   /* Freeze the page behind the overlay. Lenis owns window scrolling, so asking
      it to stop is the only thing that actually holds. */
@@ -85,10 +121,9 @@ function CollectionViewer({ collection, index, onClose }) {
     return () => getLenis()?.start();
   }, []);
 
-  /* Stepping between frames belongs to the accordion, which moves focus along
-     with the open panel — what the overlay owns is the way back, one depth at a
-     time. Both levels are held here, so the key is handled here rather than
-     racing two listeners for it. */
+  /* Stepping between frames belongs to whichever gallery is on screen — what
+     the overlay owns is the way back, one depth at a time. Both levels are held
+     here, so the key is handled here rather than racing two listeners for it. */
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
@@ -125,29 +160,44 @@ function CollectionViewer({ collection, index, onClose }) {
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-6xl"
       >
-        {/* Every frame in the set is on screen at once, so the ones waiting
-            their turn are only ever a sliver wide — `sizes` is what stops the
-            optimizer sending a full-width copy of each. The open panel is the
-            one worth loading first. */}
-        <AccordionGallery
-          items={collection.images.map((photo) => ({
-            image: photo.image,
-            alt: photo.alt,
-            label: collection.title,
-          }))}
-          defaultIndex={index}
-          onChange={setCurrent}
-          onOpen={setZoomed}
-          accentColor={BLUE}
-          overlayColor="#02040a"
-          height="min(72vh, 640px)"
-          gap={12}
-          radius={14}
-          showLabels={false}
-          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 70vw, 900px"
-          priority
-          testId={`photo-accordion-${collection.id}`}
-        />
+        {narrow ? (
+          /* One frame at a time, with the rest of the set ranked behind it so
+             you can see there is one. Swiping left brings the next forward. The
+             front card is about as wide as the screen, and `sizes` says so. */
+          <DepthCarousel
+            items={items}
+            defaultIndex={index}
+            onChange={setCurrent}
+            onOpen={setZoomed}
+            accentColor={BLUE}
+            overlayColor="#02040a"
+            height="min(72vh, 640px)"
+            radius={14}
+            sizes="(max-width: 640px) 92vw, 420px"
+            priority
+            testId={`photo-carousel-${collection.id}`}
+          />
+        ) : (
+          /* Every frame in the set is on screen at once, so the ones waiting
+             their turn are only ever a sliver wide — `sizes` is what stops the
+             optimizer sending a full-width copy of each. The open panel is the
+             one worth loading first. */
+          <AccordionGallery
+            items={items}
+            defaultIndex={index}
+            onChange={setCurrent}
+            onOpen={setZoomed}
+            accentColor={BLUE}
+            overlayColor="#02040a"
+            height="min(72vh, 640px)"
+            gap={12}
+            radius={14}
+            showLabels={false}
+            sizes="(max-width: 1280px) 70vw, 900px"
+            priority
+            testId={`photo-accordion-${collection.id}`}
+          />
+        )}
       </motion.div>
 
       <div className="absolute bottom-6 left-0 right-0 text-center pointer-events-none">
