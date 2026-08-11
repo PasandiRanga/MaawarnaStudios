@@ -10,7 +10,7 @@
  * point of a piece, and at feed size there's no reading it.
  *
  * This is to the graphics sub-categories what VideoGrid is to the video ones and
- * PhotoCollectionStack is to the photo ones — it takes a set and an eyebrow and
+ * PhotoCollectionGrid is to the photo ones — it takes a set and an eyebrow and
  * owns the rest. It shares VideoGrid's masonry approach because the problem is
  * the same one; the difference is that card shapes here come free with the
  * static import rather than needing a manifest, and next/image does the loading.
@@ -31,7 +31,7 @@ const BLUE = '#3b82f6';
 const WIDE = 1.2;
 
 /* next/image only generates a blur placeholder for extensions it recognises in
-   lower case — see the longer note in PhotoCollectionStack.js. */
+   lower case — see the longer note in PhotoCollectionGrid.js. */
 const blurProps = (image) => (image.blurDataURL ? { placeholder: 'blur' } : {});
 
 function Viewer({ pieces, index, eyebrow, onClose, onStep }) {

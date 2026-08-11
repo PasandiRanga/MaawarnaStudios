@@ -1,0 +1,110 @@
+/* Collection tiles — one per set, two to a row.
+   The turning of the frames is JS (see `CollectionTile`); everything here is the
+   card they turn inside and the parts that sit over them. */
+
+.pc-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid hsl(220 20% 16%);
+  background: linear-gradient(150deg, hsl(220 25% 12%), hsl(220 25% 7%));
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Two to a row down to the smallest screen, so a tile is narrow before it's
+   short — a standing frame carries product and portrait work better there than
+   a letterbox would. It squares up as soon as there's width for it. */
+.pc-card__frame {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 640px) {
+  .pc-card__frame {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Every frame in the turn is stacked here at once; which one is on top and what
+   it's worth is set per render. */
+.pc-card__shot {
+  position: absolute;
+  inset: 0;
+}
+
+.pc-card__shot img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pc-card:hover .pc-card__shot img {
+  transform: scale(1.06);
+}
+
+/* Deep enough at the bottom to hold a title against a bright frame, and gone by
+   halfway up so the photograph is still the thing you're looking at. */
+.pc-card__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3) 45%, transparent);
+}
+
+.pc-card__ring {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  transition: box-shadow 0.3s ease;
+}
+
+.pc-card:hover .pc-card__ring,
+.pc-card:focus-visible .pc-card__ring {
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.55);
+}
+
+.pc-card__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  padding: 1rem;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .pc-card__label {
+    padding: 1.5rem;
+  }
+}
+
+/* Draws itself across the tile on the way in — the same gesture the category
+   tiles make one level up. */
+.pc-card__rule {
+  display: block;
+  height: 1px;
+  width: 2rem;
+  margin-top: 0.75rem;
+  background: #3b82f6;
+  opacity: 0.55;
+  transition: width 0.5s ease;
+}
+
+.pc-card:hover .pc-card__rule {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-card__shot img,
+  .pc-card__rule {
+    transition: none;
+  }
+}

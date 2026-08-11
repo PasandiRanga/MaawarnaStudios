@@ -1,0 +1,129 @@
+/* Depth Carousel — the phone's stand-in for the accordion.
+   Cards are placed in JS (see `layout`), so everything here is the room they're
+   placed in and the parts that don't move with them. */
+
+.depth-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: var(--dc-perspective, 1400px);
+  perspective-origin: 50% 50%;
+  /* The whole gesture is ours: this only ever sits over a page that has stopped
+     scrolling, and leaving the vertical axis to the browser lets a diagonal
+     swipe hand the set over to an overscroll bounce mid-turn. */
+  touch-action: none;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.depth-carousel:focus-visible {
+  outline: 2px solid var(--dc-accent, #ffffff);
+  outline-offset: 6px;
+  border-radius: 14px;
+}
+
+/* Cards are absolutely placed against the middle of this and fan out past its
+   edges — the bleed is the point, so nothing here clips. */
+.depth-carousel__stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.dc-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Placed on the first layout pass; until then it sits under the root's own
+     opacity, which is what holds the set back until it has been measured. */
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  overflow: hidden;
+  background: #0a0713;
+  box-shadow:
+    0 30px 60px -24px rgba(0, 0, 0, 0.75),
+    0 8px 20px -12px rgba(0, 0, 0, 0.5);
+  will-change: transform, opacity, filter;
+}
+
+/* Covers both the plain `img` and the one next/image renders. The card is
+   already the picture's shape, so `object-fit` crops nothing — it just
+   guarantees no half-pixel gap where the fitting maths rounds. */
+.dc-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-user-drag: none;
+}
+
+/* The colour the ranks behind recede into. It multiplies rather than covers, so
+   it deepens the photograph instead of washing a flat film over it. Opacity is
+   written by `layout` — it's off entirely on the front card. */
+.dc-card__tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+
+/* The badge that marks the front card as having somewhere further to go. */
+.dc-card__open {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(2, 4, 10, 0.55);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.depth-carousel__dots {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(14, 16, 22, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.dc-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.dc-dot--active {
+  width: 20px;
+  background: var(--dc-accent, #ffffff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-card {
+    will-change: auto;
+  }
+  .dc-dot {
+    transition: none;
+  }
+}

@@ -34,7 +34,7 @@ const STEP = 1.5;
 const DRAG_SLOP = 6;
 
 /* next/image only generates a blur placeholder for extensions it recognises in
-   lower case — see the longer note in PhotoCollectionStack.js. */
+   lower case — see the longer note in PhotoCollectionGrid.js. */
 const blurProps = (image) => (image.blurDataURL ? { placeholder: 'blur' } : {});
 
 const clamp = (value) => Math.min(Math.max(value, MIN), MAX);
