@@ -1,13 +1,13 @@
 'use client';
 
 /*
- * Photo gallery — one ScrollStack card per collection, each card holding that
- * collection's full set.
+ * Photo gallery — one tile per collection, two tiles to a row, each tile turning
+ * over a handful of frames from the set it stands for.
  *
- * Three depths, each one narrowing what you're looking at: the stack is every
- * collection, tapping a frame opens that collection as an accordion resting on
- * the frame you tapped, and tapping the open frame lifts it out on its own to be
- * looked at properly. Escape walks back up a level at a time.
+ * Three depths, each one narrowing what you're looking at: the grid is every
+ * collection, tapping a tile opens that collection as an accordion resting on
+ * the frame the tile happened to be showing, and tapping the open frame lifts it
+ * out on its own to be looked at properly. Escape walks back up a level.
  *
  * The middle depth changes shape on a phone: an accordion fans a set out across
  * width, which a phone hasn't got, so there it becomes a depth carousel you
@@ -15,23 +15,33 @@
  *
  * Product photography groups by brand, graduation photography by album; the only
  * thing that changes between them is the collections passed in and the eyebrow
- * over each card.
+ * the tiles are labelled against.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { X } from 'lucide-react';
 import AccordionGallery from './AccordionGallery';
 import DepthCarousel from './DepthCarousel';
 import PhotoZoom from './PhotoZoom';
-import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import { getLenis } from './SmoothScrolling';
-import './PhotoCollectionStack.css';
+import './PhotoCollectionGrid.css';
 
 const BLUE = '#3b82f6';
 
-const isPortrait = (image) => image.height > image.width;
+/* The site's easing curve — see the framer variants in the page files. */
+const EASE = [0.25, 0.46, 0.45, 0.94];
+
+/* How long a frame holds a tile, and how long the next one takes to cover it.
+   The hold is long enough to actually look at a photograph, and the fade slow
+   enough that a grid of tiles reads as breathing rather than flicking. */
+const HOLD = 5000;
+const FADE = 1;
+
+/* How many frames a tile turns over. Enough to say what a set is; few enough
+   that a page of tiles isn't a page of loading. */
+const PREVIEW = 4;
 
 /* next/image only generates a blur placeholder for extensions it recognises in
    lower case, and cameras write `.JPG` — so a folder dropped in straight off the
@@ -40,24 +50,13 @@ const isPortrait = (image) => image.height > image.width;
    taking the whole gallery down while nobody's looking. */
 const blurProps = (image) => (image.blurDataURL ? { placeholder: 'blur' } : {});
 
-/* Fill the card exactly, whatever the set size. Up to four shots run in a single
-   row; beyond that they go two-deep, and an odd count is absorbed by letting the
-   opening frame take a double cell.
- *
- * Which way that double runs follows the frame itself: a portrait lead spans the
- * two rows and comes out tall, a landscape one spans two columns and comes out
- * wide. Either way the remaining shots fill the rest exactly — an odd count has
- * an even number of frames after the lead, which is what the second dimension
- * needs. */
-function mosaic(count, heroPortrait) {
-  if (count <= 4) return { cols: count, rows: 1, colSpan: 1, rowSpan: 1 };
-  const odd = count % 2 === 1;
-  const cols = odd ? (count + 1) / 2 : count / 2;
-  if (!odd) return { cols, rows: 2, colSpan: 1, rowSpan: 1 };
-  return heroPortrait
-    ? { cols, rows: 2, colSpan: 1, rowSpan: 2 }
-    : { cols, rows: 2, colSpan: 2, rowSpan: 1 };
-}
+/* Which frames a tile shows: spread across the set rather than taken off the
+   front, so a tile samples the collection instead of previewing its opening.
+   A short set gives up what it has. */
+const preview = (count) => {
+  const n = Math.min(PREVIEW, count);
+  return Array.from({ length: n }, (_, i) => Math.round((i * count) / n));
+};
 
 /* Which of the two galleries the overlay opens with. It matches the width the
    accordion gives up at, so the carousel takes over exactly where the fan stops
@@ -220,91 +219,147 @@ function CollectionViewer({ collection, index, onClose }) {
   );
 }
 
-export default function PhotoCollectionStack({ collections, eyebrow, testId }) {
+/* One collection, standing for itself. The frames it shows are stacked rather
+   than swapped: the incoming one fades up over the top of whatever is under it
+   and the one beneath only cuts out once it's fully covered, so a tile never
+   flashes its own background halfway through a change. */
+function CollectionTile({ collection, eyebrow, offset, onOpen }) {
+  const ref = useRef(null);
+  const prefersReduced = useReducedMotion();
+
+  const picks = useMemo(() => preview(collection.images.length), [collection.images.length]);
+  const [shown, setShown] = useState(0);
+
+  const count = collection.images.length;
+
+  /* The turn runs only while the tile is on screen. A page of tiles cycling out
+     of sight is work nobody can see, and on a phone it's work with a battery
+     cost. Reduced motion stops it before it starts — the lead frame is a fine
+     thing for a tile to be. */
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReduced || picks.length < 2) return;
+
+    let opening = null;
+    let turning = null;
+
+    const stop = () => {
+      clearTimeout(opening);
+      clearInterval(turning);
+      opening = turning = null;
+    };
+
+    const start = () => {
+      if (opening || turning) return;
+      /* Tiles are offset against each other so a grid of them doesn't turn over
+         in lockstep, which reads as one thing blinking rather than several
+         playing. */
+      opening = setTimeout(() => {
+        opening = null;
+        turning = setInterval(() => setShown((i) => (i + 1) % picks.length), HOLD);
+      }, offset);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) start();
+      else stop();
+    });
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      stop();
+    };
+  }, [picks.length, offset, prefersReduced]);
+
+  return (
+    <button
+      ref={ref}
+      type="button"
+      /* Straight to the frame you were looking at, so the tile hands the set
+         over at the place it left off rather than starting it again. */
+      onClick={() => onOpen(picks[shown])}
+      data-testid={`collection-tile-${collection.id}`}
+      aria-label={`Open ${collection.title} — ${eyebrow}, ${count} ${count === 1 ? 'frame' : 'frames'}`}
+      className="pc-card"
+    >
+      {/* A span rather than a div: everything in here lives inside a button,
+          which only takes phrasing content. */}
+      <span className="pc-card__frame">
+        {picks.map((index, i) => {
+          const photo = collection.images[index];
+          return (
+            <motion.span
+              key={photo.image.src}
+              className="pc-card__shot"
+              initial={false}
+              animate={{ opacity: i === shown ? 1 : 0 }}
+              /* The frame coming up fades; the one going out holds until that
+                 fade has finished and then cuts, invisibly, from behind it. */
+              transition={i === shown
+                ? { duration: FADE, ease: EASE }
+                : { duration: 0, delay: FADE }}
+              style={{ zIndex: i === shown ? 2 : 1 }}
+            >
+              {/* Two tiles to a row all the way down, so a tile is about half
+                  the viewport on a phone and half the 1152px container on a
+                  desktop — which is what `sizes` tells the optimizer. */}
+              <Image
+                src={photo.image}
+                alt=""
+                fill
+                sizes="(max-width: 767px) 50vw, (max-width: 1279px) 45vw, 560px"
+                {...blurProps(photo.image)}
+                className="object-cover"
+              />
+            </motion.span>
+          );
+        })}
+      </span>
+
+      {/* The wash the title is read against, and the ring that answers a hover
+          — both of them above the frames, neither of them in the way. */}
+      <span className="pc-card__scrim" aria-hidden="true" />
+      <span className="pc-card__ring" aria-hidden="true" />
+
+      <span className="pc-card__label">
+        <span className="flex items-center gap-2 mb-1.5">
+          <span className="w-4 h-px" style={{ background: BLUE }} />
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: BLUE }}>
+            {String(count).padStart(2, '0')} {count === 1 ? 'Frame' : 'Frames'}
+          </span>
+        </span>
+        <span className="block text-lg md:text-2xl font-bold tracking-tight">
+          {collection.title}
+        </span>
+        <span className="pc-card__rule" />
+      </span>
+    </button>
+  );
+}
+
+export default function PhotoCollectionGrid({ collections, eyebrow, testId }) {
   const [viewer, setViewer] = useState(null);
 
   const active = viewer ? collections.find(c => c.id === viewer.id) : null;
 
   return (
     <div data-testid={testId}>
-      {/* One card advances per (card height + itemDistance) of scroll, so the
-          gap is the main lever on how long the whole stack takes. Depth reads as
-          a grey veil (`dimAmount`) instead of a blur, which would re-rasterise a
-          card full of photographs on every frame it changed. */}
-      <ScrollStack
-        itemDistance={40}
-        itemScale={0.028}
-        itemStackDistance={22}
-        stackPosition="16%"
-        scaleEndPosition="6%"
-        baseScale={0.88}
-        dimAmount={0.18}
-      >
-        {collections.map((collection) => {
-          const heroPortrait = isPortrait(collection.images[0].image);
-          const { cols, rows, colSpan, rowSpan } = mosaic(collection.images.length, heroPortrait);
-          return (
-            <ScrollStackItem key={collection.id} itemClassName="p-4 md:p-6 flex flex-col">
-              <header className="shrink-0 px-1 pb-4 md:pb-5">
-                <div className="flex items-center gap-2.5 mb-2">
-                  <div className="w-5 h-px" style={{ background: BLUE }} />
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-[0.24em]"
-                    style={{ color: BLUE }}
-                  >
-                    {eyebrow}
-                  </span>
-                </div>
-                <h3 className="text-2xl md:text-4xl font-bold tracking-tight">{collection.title}</h3>
-              </header>
-
-              {/* On phones the card grows with its content and the lead frame
-                  gets a band of its own — one a portrait shot can't survive, so
-                  a portrait lead stays the same shape as the rest of the set. */}
-              <div
-                className={`pc-grid flex-1${heroPortrait ? ' pc-grid--portrait-hero' : ''}`}
-                style={{
-                  '--cols': cols,
-                  '--rows': rows,
-                  '--hero-col-span': colSpan,
-                  '--hero-row-span': rowSpan,
-                }}
-              >
-                {collection.images.map((photo, i) => (
-                  <button
-                    key={photo.image.src}
-                    type="button"
-                    className={`pc-tile${isPortrait(photo.image) ? ' pc-tile--portrait' : ''}`}
-                    aria-label={`Open ${photo.alt}`}
-                    onClick={() => setViewer({ id: collection.id, index: i })}
-                  >
-                    {/* No tile is ever wider than half the 1280px container, and
-                        most are a quarter of it — `sizes` is what stops the
-                        optimizer handing back a needlessly large copy. A lead
-                        frame spanning two rows is no wider than the rest but
-                        twice as tall, so it needs the taller source to stay sharp
-                        on a retina screen. The blur placeholder is generated at
-                        build time from the static import, so a tile fades up from
-                        its own colours. */}
-                    <Image
-                      src={photo.image}
-                      alt={photo.alt}
-                      fill
-                      sizes={
-                        i === 0 && rowSpan > 1
-                          ? '(max-width: 767px) 50vw, 900px'
-                          : '(max-width: 767px) 50vw, 640px'
-                      }
-                      {...blurProps(photo.image)}
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            </ScrollStackItem>
-          );
-        })}
-      </ScrollStack>
+      <div className="grid grid-cols-2 gap-3 md:gap-6">
+        {collections.map((collection, i) => (
+          <CollectionTile
+            key={collection.id}
+            collection={collection}
+            eyebrow={eyebrow}
+            /* A quarter-beat between neighbours, wrapping every fourth tile: at
+               two to a row that puts a whole beat between the rows and repeats
+               only two rows down, which is far enough apart not to read as a
+               pattern. */
+            offset={(i % 4) * (HOLD / 4)}
+            onOpen={(index) => setViewer({ id: collection.id, index })}
+          />
+        ))}
+      </div>
 
       <AnimatePresence>
         {active && (

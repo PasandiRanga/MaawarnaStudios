@@ -11,7 +11,7 @@ import {
 import BorderGlow from '@/components/BorderGlow';
 import AnimatedButton from '@/components/AnimatedButton';
 import FoldHeading from '@/components/FoldHeading';
-import PhotoCollectionStack from '@/components/PhotoCollectionStack';
+import PhotoCollectionGrid from '@/components/PhotoCollectionGrid';
 import VideoGrid from '@/components/VideoGrid';
 import ImageGrid from '@/components/ImageGrid';
 import { videoReels } from '@/data/videoReels';
@@ -416,9 +416,9 @@ function PortfolioContent() {
                       ))}
                     </motion.div>
                   ) : (
-                    /* Only opacity animates — the stack measures its own card
-                       positions on mount, and a wrapper sliding in would move
-                       them out from under it. */
+                    /* Only opacity animates: the galleries below measure their
+                       own layout on mount, and a wrapper sliding in would move
+                       it out from under them. */
                     <motion.div
                       key={sub.id}
                       initial={{ opacity: 0 }}
@@ -428,10 +428,10 @@ function PortfolioContent() {
                       data-testid={`sub-work-${sub.id}`}
                     >
                       {sub.collections?.length ? (
-                        <PhotoCollectionStack
+                        <PhotoCollectionGrid
                           collections={sub.collections}
                           eyebrow={sub.label}
-                          testId={`photo-stack-${sub.id}`}
+                          testId={`photo-grid-${sub.id}`}
                         />
                       ) : sub.reels?.length ? (
                         <VideoGrid

@@ -65,7 +65,7 @@ const isImport = (image) => typeof image === 'object' && image !== null && 'src'
 const srcOf = (item) => (isImport(item.image) ? item.image.src : item.image);
 
 /* next/image only generates a blur placeholder for extensions it recognises in
-   lower case — see the longer note in PhotoCollectionStack.js. */
+   lower case — see the longer note in PhotoCollectionGrid.js. */
 const blurProps = (image) => (image.blurDataURL ? { placeholder: 'blur' } : {});
 
 export default function DepthCarousel({

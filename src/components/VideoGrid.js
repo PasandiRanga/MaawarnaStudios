@@ -5,8 +5,8 @@
  * aspect ratio, previewing silently as it scrolls into view. Tapping a card
  * opens it full-bleed with sound.
  *
- * The photo sub-categories open into a ScrollStack; the video ones open into
- * this. Both take a set and an eyebrow and own the rest.
+ * The photo sub-categories open into a PhotoCollectionGrid; the video ones open
+ * into this. Both take a set and an eyebrow and own the rest.
  *
  * Card shapes come from the manifest rather than from the videos themselves:
  * asking the browser would mean fetching metadata for every clip up front and
