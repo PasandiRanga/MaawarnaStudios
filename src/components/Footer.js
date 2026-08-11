@@ -10,15 +10,7 @@ const BLUE_LIGHT = '#60a5fa';
 export const Footer = () => {
   const year = new Date().getFullYear();
 
-  const links = ['Home', 'About', 'Portfolio', 'Services', 'Clients', 'Contact'];
-  const services = [
-    'Cinematic Videography',
-    'Commercial Photography',
-    'Brand Campaigns',
-    'Creative Direction',
-    'Product Marketing',
-    'Post Production',
-  ];
+  const links = ['Home', 'About', 'Portfolio', 'Contact'];
   const socials = [
     { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/maawarna_studios/' },
     { icon: Facebook,  label: 'Facebook',  href: 'https://web.facebook.com/profile.php?id=61580942173756' },
@@ -35,7 +27,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 pt-16 pb-10">
 
         {/* Top grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-14">
 
           {/* Brand */}
           <div className="lg:col-span-1">
@@ -103,20 +95,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] mb-5" style={{ color: BLUE }}>
-              Services
-            </h4>
-            <ul className="space-y-2.5">
-              {services.map((item) => (
-                <li key={item}>
-                  <span className="text-sm" style={{ color: 'rgba(235,242,255,0.35)' }}>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Contact */}
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] mb-5" style={{ color: BLUE }}>
@@ -157,25 +135,9 @@ export const Footer = () => {
         <div className="h-px mb-8" style={{ background: 'rgba(59,130,246,0.08)' }} />
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs" style={{ color: 'rgba(235,242,255,0.25)' }}>
-            © {year} Maawarna Studios. All rights reserved.
-          </p>
-          <div className="flex gap-6">
-            {['Privacy Policy', 'Terms of Service'].map((item) => (
-              <Link
-                key={item}
-                href="#"
-                className="text-xs transition-colors duration-300"
-                style={{ color: 'rgba(235,242,255,0.25)' }}
-                onMouseEnter={e => e.currentTarget.style.color = BLUE_LIGHT}
-                onMouseLeave={e => e.currentTarget.style.color = 'rgba(235,242,255,0.25)'}
-              >
-                {item}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <p className="text-xs text-center" style={{ color: 'rgba(235,242,255,0.25)' }}>
+          © {year} Maawarna Studios. All rights reserved.
+        </p>
       </div>
     </footer>
   );
