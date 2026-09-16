@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import SideRays from "@/components/SideRays";
+import { Analytics } from "@vercel/analytics/next";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -49,6 +50,7 @@ export default function RootLayout({ children }) {
           <WhatsAppButton />
         </SmoothScrolling>
         <Toaster position="top-right" theme="dark" richColors />
+        <Analytics />
       </body>
     </html>
   );
